@@ -74,7 +74,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.onRender)
 
 function mod:drawAscensionIcon()
-	if mod:GetSaveData().displayIcon ~= 2 then
+	if mod:GetSaveData().displayIcon ~= 2 and Ascended.Active then
 		local offsetraw = Options.HUDOffset
 		local offset = offsetraw * 24
 		
