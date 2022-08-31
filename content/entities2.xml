@@ -1,0 +1,5 @@
+<entities anm2root="gfx/" version="5">
+	<entity anm2path="spookster.anm2" baseHP="250" boss="1" champion="0" collisionDamage="0" collisionMass="50" collisionRadius="0" friction="1" id="3" variant="631" name="Spookster" numGridCollisionPoints="12" shadowSize="40" shieldStrength="0" tags="noreroll nodelirium">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+</>
