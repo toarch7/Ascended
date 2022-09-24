@@ -91,6 +91,8 @@ local ascendeddirectory = {
             dssmod.gamepadToggleButton,
             dssmod.menuKeybindButton,
             dssmod.paletteButton,
+            
+            {str = "", nosel = true},
 
             {
                 str = "show ascensions",
@@ -125,9 +127,6 @@ local ascendeddirectory = {
                     mod.GetSaveData().displayIcon = var
                 end
             },
-            
-            {str = "", nosel = true},
-            {str = "gameplay", fsize = 1, nosel = true},
             
             {
                 str = "freeplay",

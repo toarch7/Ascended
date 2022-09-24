@@ -3,6 +3,16 @@ local mod = AscendedModref
 local json = require("json")
 local game = Game()
 
+function mod:saveAscensionData()
+	if Ascended.Active then
+		Ascended.Data.roomsCleared = mod.roomsCleared
+
+		mod:SaveData(json.encode(Ascended.Data))
+	end
+end
+
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.saveAscensionData)
+
 function mod.loadAscensionData()
 	if mod:HasData() then
 		Ascended.Data = json.decode(mod:LoadData())
@@ -15,14 +25,6 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.loadAscensionData)
 
-function mod:saveAscensionData()
-	if Ascended.Active then
-		Ascended.Data.roomsCleared = mod.roomsCleared
-		mod:SaveData(json.encode(Ascended.Data))
-	end
-end
-
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.saveAscensionData)
 
 
 function mod:postGameOver(death)
@@ -38,6 +40,7 @@ function mod:postGameOver(death)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.postGameOver)
+
 
 
 -- load saved data upon reloading the mod

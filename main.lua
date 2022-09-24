@@ -45,7 +45,7 @@ function mod.GetCurrentChar()
 	if t == 39 then t = 37 end
 	if t == 40 then t = 35 end
 
-	return player:GetName() .. t
+	return p:GetName() .. t
 end
 
 function mod.Random(n)
@@ -342,7 +342,8 @@ function mod.UpdateAscendedStatus()
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
 		if Ascended.Freeplay then
-			Ascended.SetAscension(player, 15)
+			local m = #Ascended.EffectDescriptions
+			Ascended.SetAscension(player, m)
 		end
 	else
 		Ascended.SetAscension(player, 0)
@@ -389,7 +390,7 @@ function mod.handleCommand(_, cmd, params)
 		local player = mod.GetCurrentChar()
 		Ascended.SetAscension(player, tonumber(params))
 		print("Set ascension for " .. player .. " to " .. tonumber(params))
-		mod:saveAscendedData()
+		mod:saveAscensionData()
 	end
 end
 

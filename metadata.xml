@@ -1,8 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<name>Ascended</name>
-	<directory>ascended</directory>
-	<description/>
-	<version>1.0</version>
-	<visibility/>
-</metadata>
+    <name>Ascended</name>
+    <directory>ascended</directory>
+    <id>2867038605</id>
+    <description>[b]Ascended[/b] is a mod that implies to spice up your gameplay by introducing new stacking difficulty mode, which is heavily inspired by [b1]Eclipse from Risk of Rain 2[/b] and [b]Ascensions from Slay the Spire[/b].
 
+[h1][b]Ascension effects (total of 14 at this moment)[/b][/h1]
+[list]
+[*] [b]I - Discharged active items[/b]
+All newly encountred active items and starting ones as well will be discharged by default.
+[*] [b]II - Less room rewards[/b]
+25% chance to replace your room award with cloud of nothing
+[*] [b]III - Higher shop prices[/b]
+All shop items cost 35% more.
+[*] [b]IV - Emptier floors[/b]
+25% chance to replace any non-vital special room with the empty one
+[*] [b]V - Full heart damage since ch. 3[/b]
+Speaks for itself
+[*] [b]VI - Weaker soul hearts[/b]
+Soul hearts will now receive full heart damage. Isn't affected by previous ascension.
+[*] [b]VII - Broken destiny[/b]
+All characters (except T. Keeper) start with three broken hearts (or 1 in case of regular Keeper)
+[*] [b]VIII - Items don't heal you on pickup[/b]
+Disables healing for picking up items in any shape of form.
+[*] [b]IX - Extra Boss Room each floor[/b]
+Every floor will now have additional boss fight just like with the Curse of Labyrinth. Though, beating this extra boss won't award you with an item.
+This should work for modded bosses too, but I haven't tested it that much,
+[*] [b]X - Room may not gain you charge[/b]
+Each third room doesn't charge your active item(s)
+[*] [b]XI - Worse beggars and blood donation[/b]
+Almost every beggar now has worse payouts.
+Blood donation machine though will work just like if you were playing as the Keeper
+[*][b]XII - Less room for consumables[/b]
+Speaks for itself, but I'd like to note that this one is worked quite well
+[*][b]XIII - Less invulnerability[/b]
+Isaac will now take damage twice as frequently
+[*][b]XIV - Chased by Death[/b]
+A Spelunky-styled ghost will now appear on each floor after a certain time threshold.
+[/list]
+
+[h1]Additional notes[/h1]
+[list]
+[*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff
+[*] You can enable freeplay mode in DSS options, which makes progression an optional part.
+[*] It's possible to change Ascension number thru `ascend x` console command, where the `x` is a needed ascension. 
+[*] Works in multiplayer (both local and through networktest)
+[*] Should work fine for most modded characters
+[*] This gamemode does its best mostly during Eden streaks
+[/list]
+
+[h1]Todo[/h1]
+[list]
+[*] Up to 20 ascensions
+[*] Unlockables
+[*] StageAPI compat
+[*] Fix A9 issues with minimap and something else
+[/list]
+
+[h1]Special thanks[/h1]
+[b]Warhamm2000[/b]: Epic Spookster spritesheet and workshop thumbnail
+[b]fly_6[/b]: Coding help and playtesting
+[b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &amp; playtesting</description>
+    <version>1.1</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Hazards"/>
+    <tag id="Challenges"/>
+    <tag id="Tweaks"/>
+</metadata>
