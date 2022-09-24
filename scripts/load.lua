@@ -5,6 +5,10 @@ local game = Game()
 
 function mod:saveAscensionData()
 	if Ascended.Active then
+		if mod.roomsCleared == nil then
+			mod.roomsCleared = 0
+		end
+
 		Ascended.Data.roomsCleared = mod.roomsCleared
 
 		mod:SaveData(json.encode(Ascended.Data))

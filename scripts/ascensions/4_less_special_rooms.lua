@@ -4,7 +4,9 @@ local mod = AscendedModref
 local game = Game()
 local level = game:GetLevel()
 
-function mod:removeSpecialRooms() -- called in main.lua
+function mod:removeSpecialRooms()
+    -- called in main.lua
+    
 	if game:IsGreedMode() then return end
 
     local sidx = level:GetStartingRoomIndex()

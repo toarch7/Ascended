@@ -3,7 +3,7 @@ AscensionDesc = "Weaker soul hearts"
 local mod = AscendedModref
 
 function mod:weakerSoulhearts(ent, amount, flags)
-	if Ascended.Current < 5 then return end
+	if Ascended.Current < 6 then return end
 	
     local p = ent:ToPlayer()
 

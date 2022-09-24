@@ -370,7 +370,7 @@ function mod.newLevel()
 
 	mod.SecondBossRoomLayout = Ascended.DecideBoss()
 	
-	if Ascended.Current >= 10 and stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
+	if Ascended.Current >= 9 and stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
 		mod:TryGenerateSecondBoss()
 
 		if level:GetStage() == 2 and level:GetStageType() >= 3 then
@@ -378,7 +378,7 @@ function mod.newLevel()
 		end
 	end
 
-	if Ascended.Current >= 3 and level:GetStage() <= 8 then
+	if Ascended.Current >= 4 and level:GetStage() <= 8 then
 		mod:removeSpecialRooms()
 	end
 end

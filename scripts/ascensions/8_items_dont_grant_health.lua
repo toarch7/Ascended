@@ -16,7 +16,7 @@ function mod:healthUpItemHandling(player, a)
     if mod.healRemovalData[h] ~= nil and player:IsItemQueueEmpty() then
 		local oldhealth = mod.healRemovalData[h]
 
-		if Ascended.Current >= 4 and player:GetHearts() > oldhealth then
+		if Ascended.Current >= 8 and player:GetHearts() > oldhealth then
 			player:AddHearts(oldhealth - player:GetHearts())
 		end
 

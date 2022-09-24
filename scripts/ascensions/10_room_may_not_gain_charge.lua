@@ -7,7 +7,11 @@ mod.roomsCleared = 0
 
 function mod:activeItemDischarge(p)
 	if mod.postSpawnCleanAward then
-		if Ascended.Current >= 6 and mod.roomsCleared % 3 == 0 then
+		if mod.roomsCleared == nil then
+			mod.roomsCleared = 0
+		end
+		
+		if Ascended.Current >= 10 and mod.roomsCleared % 3 == 0 then
 			local slots = { ActiveSlot.SLOT_PRIMARY, ActiveSlot.SLOT_SECONDARY, ActiveSlot.SLOT_POCKET, ActiveSlot.SLOT_POCKET2 }
 			
 			for _, v in pairs(slots) do

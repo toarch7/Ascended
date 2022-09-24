@@ -3,7 +3,7 @@ AscensionDesc = "Higher shop prices"
 local mod = AscendedModref
 
 function mod:postShopPickupUpdate(p)
-	if Ascended.Current < 7 then return end
+	if Ascended.Current < 3 then return end
 	
 	if p.Price > 0 and p.AutoUpdatePrice then
 		p.Price = math.floor(p.Price * 1.35)

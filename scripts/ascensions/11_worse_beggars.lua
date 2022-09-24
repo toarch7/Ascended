@@ -12,7 +12,7 @@ mod.ReplaceBeggarPrize = false
 mod.ReplaceBeggarEntity = nil
 
 function mod:greedierBeggars()
-    if Ascended.Current >= 8 then
+    if Ascended.Current >= 11 then
 		for _, vari in ipairs(beggarvariantlist) do
             local beggars = Isaac.FindByType(6, vari)
             
