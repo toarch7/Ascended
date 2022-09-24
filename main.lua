@@ -414,9 +414,9 @@ local includes = {
 	"scripts.ascensions.10_room_may_not_gain_charge",
 	"scripts.ascensions.11_worse_beggars",
 	"scripts.ascensions.12_consumable_cap",
-	"scripts.ascensions.13_faster_enemies",
-	"scripts.ascensions.14_less_iframes",
-	"scripts.ascensions.15_spookster",
+	-- "scripts.ascensions.13_faster_enemies",
+	"scripts.ascensions.13_less_iframes",
+	"scripts.ascensions.14_spookster",
 
 	"scripts.dss.ascendedmenu",
 

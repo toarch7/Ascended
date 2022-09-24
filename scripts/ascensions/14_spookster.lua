@@ -125,7 +125,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 
 function mod:handleSpooksterSpawn()
-	if Ascended.Current >= 15 and mod.SpooksterTimer > 0 then
+	if Ascended.Current >= 14 and mod.SpooksterTimer > 0 then
 		mod.SpooksterTimer = mod.SpooksterTimer - 1
 
 		if mod.SpooksterTimer <= 0 then

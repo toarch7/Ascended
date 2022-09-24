@@ -151,29 +151,7 @@ local ascendeddirectory = {
                         Isaac.ExecuteCommand("restart")
                     end
                 end
-            },
-            
-            {
-                str = "keeper and a11",
-                choices = {"default", "disable on tainted"},
-                
-                setting = 1,
-
-                variable = "ascendedBrokenHeartOption",
-                
-                load = function()
-                    return mod.GetSaveData().keeperBrokenheart or 1
-                end,
-
-                store = function(var)
-                    mod.GetSaveData().keeperBrokenheart = var
-                end
-            },
-            
-            {str = "", nosel = true},
-            {str = "", nosel = true},
-            {str = "", nosel = true},
-            {str = "no more tweaks for ya :^)", fsize = 1, nosel = true}
+            }
         }
     }
 }

@@ -147,9 +147,11 @@
         "DetailedRespawn",
         "shittextoffset",
         "shittexttime",
-        "include"
+        "include",
+        "MinimapAPI"
     ],
     "workspace.library": [
-        "c:\\Users\\trchr\\.vscode\\extensions\\filloax.isaac-lua-api-vscode-1.3.3\\out\\emmylua"
-    ]
+        "c:\\Users\\trchr\\.vscode\\extensions\\filloax.isaac-lua-api-vscode-1.3.6\\out\\emmylua"
+    ],
+    "runtime.version": "Lua 5.3"
 }

@@ -9,12 +9,10 @@ function mod:brokenHeartStart(player)
     if Ascended.Current >= 11 then
         local name = player:GetName()
 
-        local conf = mod:GetSaveData().keeperBrokenheart
+        if player:GetPlayerType() == 33 then return end
         
         if name == "Keeper" then
-            if player:GetPlayerType() ~= 33 or (conf == 2 and player:GetPlayerType() ~= 33) then
-                player:AddBrokenHearts(1)
-            end
+            player:AddBrokenHearts(1)
         elseif player:GetPlayerType() == 16 then
             player:AddBrokenHearts(2)
         elseif player:GetPlayerType() == 17 then
