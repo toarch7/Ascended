@@ -16,6 +16,10 @@ function mod.loadAscensionData()
 
 	if Ascended.Active then
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
+
+		if Ascended.Freeplay then
+			Ascended.SetAscension(player, 15)
+		end
 	else
 		Ascended.SetAscension(player, 0)
 	end
@@ -33,9 +37,8 @@ end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.saveAscensionData)
 
 
-
 function mod:postGameOver(death) -- ascension progress
-	if not death and Ascended.Active then
+	if not death and Ascended.Active and not Ascended.Freeplay then
 		if game:GetLevel():GetStage() ~= 10 then
 			local player = mod.GetCurrentChar()
 			local asc = math.min(#Ascended.EffectDescriptions, Ascended.Current + 1)

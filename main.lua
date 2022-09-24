@@ -20,10 +20,14 @@ function mod.GetCurrentChar()
 
 	local t = p:GetPlayerType()
 
-	if t == 11 then t = 3 end
-	if t == 12 then t = 8 end
+	if t == 11 then t = 8 end
+	if t == 12 then t = 3 end
+	if t == 17 then t = 16 end
+	if t == 38 then t = 29 end
+	if t == 39 then t = 37 end
+	if t == 40 then t = 35 end
 
-	return p:GetName() .. t
+	return t
 end
 
 function mod.Random(n)
@@ -38,6 +42,7 @@ Ascended = {
 	Current = 1,
 
 	Active = true,
+	Freeplay = false,
 	
 	EffectDescriptions = {},
 	
@@ -57,14 +62,6 @@ Ascended = {
 		end
 		
 		return num
-	end,
-	
-	CurrentTarget = 1,
-	
-	TargetNames = { "Blue Baby", "The Lamb", "Mega Satan", "Mother", "The Beast" },
-	
-	GetTargetName = function(n)
-		return Ascended.TargetNames[n]
 	end,
 	
 	GetCharacterAscension = function(character)
@@ -101,7 +98,7 @@ Ascended = {
 		local stg = level:GetStage()
 		local typ = level:GetStageType()
 		
-		-- I have no clue how to get random boss room layouts more properly so here we go
+		-- I have no idea how to get random boss room layouts more properly so here we go
 		if stg <= 2 then
 			if typ == 0 then
 				return choose(
@@ -355,20 +352,26 @@ for _, v in ipairs(includes) do
 end
 
 
-function mod:postPlayerInit(player)
+function mod:postPlayerInit()
 	if game.TimeCounter > 0 then return end
 
+	local player = mod.GetCurrentChar()
+
+	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD and game.Challenge == 0
+	
+	Ascended.Freeplay = mod:GetSaveData().freeplay
+	
 	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
 	mod.targetAccomplished = false
 	mod.UI.leftstartroom = false
 	mod.SecondBossRoom = -1
 	
-	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD
-	
-	local player = mod.GetCurrentChar()
-
 	if Ascended.Active then
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
+
+		if Ascended.Freeplay then
+			Ascended.SetAscension(player, 15)
+		end
 	else
 		Ascended.SetAscension(player, 0)
 	end

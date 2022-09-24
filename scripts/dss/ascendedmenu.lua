@@ -146,7 +146,26 @@ local ascendeddirectory = {
             
             {str = "", nosel = true},
             {str = "gameplay", fsize = 1, nosel = true},
+            
+            {
+                str = "freeplay",
+                choices = {"on", "off"},
                 
+                setting = 1,
+
+                tooltip = { strset = { 'disable or', 'enable', 'ascension', 'progress.', 'enabling it', 'will set the', 'highest level', 'available' } },
+
+                variable = "ascendedFreeplayOption",
+                
+                load = function()
+                    return mod.GetSaveData().freeplay or 1
+                end,
+
+                store = function(var)
+                    mod.GetSaveData().freeplay = var
+                end
+            },
+            
             {
                 str = "keeper and a11",
                 choices = {"default", "disable on tainted"},
