@@ -1,12 +1,12 @@
 AscensionDesc = "Broken destiny"
 
-local mod = AscendedModref
+local mod = Ascended
 local game = Game()
 
 function mod:brokenHeartStart(player)
 	if game.TimeCounter > 0 then return end
 	
-    if Ascended.Current >= 7 then
+    if Ascended.Ascension >= 7 then
         local name = player:GetName()
 
         if player:GetPlayerType() == 33 then return end

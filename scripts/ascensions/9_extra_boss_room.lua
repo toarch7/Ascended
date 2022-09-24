@@ -1,6 +1,6 @@
 AscensionDesc = "Extra Boss Room each floor"
 
-local mod = AscendedModref
+local mod = Ascended
 local game = Game()
 local level = game:GetLevel()
 local sfx = SFXManager()

@@ -1,6 +1,6 @@
 AscensionDesc = "Chased by Death"
 
-local mod = AscendedModref
+local mod = Ascended
 
 local game = Game()
 local level = game:GetLevel()
@@ -125,7 +125,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 
 function mod:handleSpooksterSpawn()
-	if Ascended.Current >= 14 and mod.SpooksterTimer > 0 then
+	if Ascended.Ascension >= 14 and mod.SpooksterTimer > 0 then
 		mod.SpooksterTimer = mod.SpooksterTimer - 1
 
 		if mod.SpooksterTimer <= 0 then

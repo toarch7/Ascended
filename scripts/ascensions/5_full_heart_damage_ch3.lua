@@ -1,11 +1,11 @@
 AscensionDesc = "Full heart damage since ch. 3"
 
-local mod = AscendedModref
+local mod = Ascended
 local game = Game()
 local level = game:GetLevel()
 
 function mod:weakerSoulhearts(ent, amount, flags)
-    if Ascended.Current < 5 then return end
+    if Ascended.Ascension < 5 then return end
 	
     local p = ent:ToPlayer()
 

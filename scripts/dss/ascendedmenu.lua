@@ -1,5 +1,5 @@
 
-local mod = AscendedModref
+local mod = Ascended
 
 mod.menusavedata = nil
 

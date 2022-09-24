@@ -1,4 +1,4 @@
-local mod = AscendedModref
+local mod = Ascended
 
 local game = Game()
 local level = game:GetLevel()
@@ -22,14 +22,14 @@ local function Lerp(val1, val2, percent)
 	return val1 + (val2 - val1) * percent
 end
 
-function mod.onRender()
+function mod:OnRender()
 	local textoffset = mod.UI.textoffset
 	local texttime = mod.UI.texttime
 
 	local showmode = mod:GetSaveData().displayAscensions
 
 	if textoffset > 0 then
-		local current = Ascended.Current
+		local current = mod.Ascension
 		local effects = Ascended.EffectDescriptions
 		local f = mod.font
 		
@@ -71,10 +71,10 @@ function mod.onRender()
 	mod.UI.texttime = texttime
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.onRender)
+mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.OnRender)
 
-function mod:drawAscensionIcon()
-	if mod:GetSaveData().displayIcon ~= 2 and Ascended.Active then
+function mod:DrawAscensionIcon()
+	if mod:GetSaveData().displayIcon ~= 2 and mod.Active then
 		local offsetraw = Options.HUDOffset
 		local offset = offsetraw * 24
 		
@@ -84,13 +84,13 @@ function mod:drawAscensionIcon()
 		
 		mod.UI.Icon:Render(p)
 		
-		if Ascended.Current == 1 or Ascended.Current > 9 then
+		if mod.Ascension == 1 or mod.Ascension > 9 then
 			p.X = p.X - 0.5
 		end
 
-		local n = Ascended.Current
+		local n = mod.Ascension
 
-		if Ascended.Freeplay then
+		if mod.Freeplay then
 			n = "A"
 			p.X = p.X + 0.5
 			p.Y = p.Y - 0.5
@@ -100,4 +100,4 @@ function mod:drawAscensionIcon()
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_GET_SHADER_PARAMS, mod.drawAscensionIcon)
+mod:AddCallback(ModCallbacks.MC_GET_SHADER_PARAMS, mod.DrawAscensionIcon)

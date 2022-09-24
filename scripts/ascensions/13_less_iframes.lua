@@ -1,9 +1,9 @@
 AscensionDesc = "Less invulnerability"
 
-local mod = AscendedModref
+local mod = Ascended
 
 function mod:lessInvulnerability(p)
-	if Ascended.Current >= 13 and p:GetDamageCooldown() > 0 then
+	if Ascended.Ascension >= 13 and p:GetDamageCooldown() > 0 then
 		if p:GetDamageCooldown() > 60 and p:GetDamageCooldown() <= 90 then
             p:ResetDamageCooldown()
         elseif p:GetDamageCooldown() <= 40 then

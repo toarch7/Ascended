@@ -3,7 +3,7 @@
     <name>Ascended</name>
     <directory>ascended</directory>
     <id>2867038605</id>
-    <description>[b]Ascended[/b] is a mod that implies to spice up your gameplay by introducing new stacking difficulty mode, which is heavily inspired by [b1]Eclipse from Risk of Rain 2[/b] and [b]Ascensions from Slay the Spire[/b].
+    <description>[b]Ascended[/b] is a mod that implies to spice up your gameplay by introducing new stacking difficulty mode, which is heavily inspired by [b]Eclipse from Risk of Rain 2[/b] and [b]Ascensions from Slay the Spire[/b].
 
 [h1][b]Ascension effects (total of 14 at this moment)[/b][/h1]
 [list]
@@ -22,7 +22,7 @@ Soul hearts will now receive full heart damage. Isn't affected by previous ascen
 [*] [b]VII - Broken destiny[/b]
 All characters (except T. Keeper) start with three broken hearts (or 1 in case of regular Keeper)
 [*] [b]VIII - Items don't heal you on pickup[/b]
-Disables healing for picking up items in any shape of form.
+Disables healing for picking up items in any shape or form.
 [*] [b]IX - Extra Boss Room each floor[/b]
 Every floor will now have additional boss fight just like with the Curse of Labyrinth. Though, beating this extra boss won't award you with an item.
 This should work for modded bosses too, but I haven't tested it that much,
@@ -41,6 +41,8 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 
 [h1]Additional notes[/h1]
 [list]
+[*] To make this work, you need to start a new hard mode run. Beating the game with Ascended active will increase ascension level for current character that will persist between every run.
+[*] Any progress is disabled in: Normal mode, Greed/Greedier mode, Challenges.
 [*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff
 [*] You can enable freeplay mode in DSS options, which makes progression an optional part.
 [*] It's possible to change Ascension number thru `ascend x` console command, where the `x` is a needed ascension. 
@@ -61,7 +63,7 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 [b]Warhamm2000[/b]: Epic Spookster spritesheet and workshop thumbnail
 [b]fly_6[/b]: Coding help and playtesting
 [b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &amp; playtesting</description>
-    <version>1.1</version>
+    <version>1.2</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Hazards"/>

@@ -1,315 +1,19 @@
-AscendedModref = RegisterMod("Ascended", 1)
+Ascended = RegisterMod("Ascended", 1)
 
-local mod = AscendedModref
+local mod = Ascended
 
 local game = Game()
 local level = game:GetLevel()
 
+include("ascended")
+
 mod.rng = RNG()
-mod.targetAccomplished = false
-
-local function choose(...)
-	local options = {...}
-	return options[mod.rng:RandomInt(#options) + 1]
-end
-
-local json = require("json")
-
-function mod.GetSaveData()
-    if not mod.menusavedata then
-        if Isaac.HasModData(mod) then
-            mod.menusavedata = json.decode(Isaac.LoadModData(mod))
-        else
-            mod.menusavedata = {}
-        end
-    end
-
-    return mod.menusavedata
-end
-
-function mod.StoreSaveData()
-    Isaac.SaveModData(mod, json.encode(mod.menusavedata))
-end
-
-function mod.GetCurrentChar()
-	local p = Isaac.GetPlayer(0)
-
-	if not p then return -1 end
-
-	local t = p:GetPlayerType()
-
-	if t == 11 then t = 8 end
-	if t == 12 then t = 3 end
-	if t == 17 then t = 16 end
-	if t == 38 then t = 29 end
-	if t == 39 then t = 37 end
-	if t == 40 then t = 35 end
-
-	return p:GetName() .. t
-end
 
 function mod.Random(n)
 	return mod.rng:RandomInt(n + 1)
 end
 
-Ascended = {
-	Data = {
-		Ascensions = {}
-	},
-	
-	Current = 1,
-
-	Active = true,
-	Freeplay = false,
-	
-	EffectDescriptions = {},
-	
-	AscentionNumberName = {
-		"I", "II", "III", "IV",
-		"V", "VI", "VII", "VIII", "IX",
-		"X", "XI", "XII", "XIII", "XIV",
-		"XV", "XVI", "XVII", "XVIII", "XIX",
-		"XX", "XXI", "XXII", "XXIII", "uh"
-	},
-	
-	AscensionGetName = function(num)
-		local n = Ascended.AscentionNumberName[num]
-		
-		if n ~= nil then
-			return n
-		end
-		
-		return num
-	end,
-	
-	GetCharacterAscension = function(character)
-		local a = Ascended.Data.Ascensions["char" .. character]
-		
-		if a == nil then
-			return 1
-		end
-		
-		return a
-	end,
-	
-	SetAscension = function(character, level)
-		Ascended.Data.Ascensions["char" .. character] = level
-		Ascended.Current = level
-	end,
-	
-	GetTarget = function(character)
-		local a = Ascended.Data.Ascensions["target" .. character]
-		
-		if a == nil then
-			return math.random(1, #Ascended.TargetNames)
-		end
-		
-		return a
-	end,
-	
-	SetTarget = function(character, target)
-		Ascended.Data.Ascensions["target" .. character] = target
-		Ascended.CurrentTarget = target
-	end,
-	
-	DecideBoss = function()
-		local stg = level:GetStage()
-		local typ = level:GetStageType()
-		
-		-- I have no idea how to get random boss room layouts more properly so here we go
-		if stg <= 2 then
-			if typ == 0 then
-				return choose(
-					"101" .. mod.Random(8), -- Monstro
-					"205" .. mod.Random(3), -- Gemini
-					"102" .. mod.Random(8), -- Larry Jr.
-					"502" .. mod.Random(6), -- Dingle
-					"514" .. mod.Random(5), -- Gurglings
-					
-					"516" .. mod.Random(5), -- Baby Plum
-					"11"  .. (17 + mod.Random(4)), -- Dangle
-					"51"  .. (46 + mod.Random(5)), -- Turdlings
-					"207" .. mod.Random(3) -- Steven
-				)
-			elseif typ == 1 then
-				return choose(
-					"332" .. mod.Random(3), -- The Blighted Ovum
-					"334" .. mod.Random(5), -- Widow
-					"337" .. mod.Random(9), -- Pin
-					"501" .. mod.Random(4), -- Haunt
-					"516" .. mod.Random(5), -- Baby Plum
-					choose("1019", "1029", "1035", "1036") -- Ragman
-				)
-			elseif typ == 2 then
-				return choose(
-					"101" .. mod.Random(8), -- Monstro
-					"205" .. mod.Random(3), -- Gemini
-					"102" .. mod.Random(8), -- Larry Jr.
-					"502" .. mod.Random(6), -- Dingle
-					"514" .. mod.Random(5), -- Gurglings
-					"516" .. mod.Random(5), -- Baby Plum
-					choose("1019", "1029", "1035", "1036"), -- Ragman
-					
-					"11"  .. (17 + mod.Random(4)), -- Dangle
-					"51"  .. (46 + mod.Random(5)), -- Turdlings
-					"207" .. mod.Random(3) -- Steven
-				)
-			elseif typ == 4 then
-				return choose(
-					"518" .. mod.Random(4), -- Wormwood
-					"517" .. mod.Random(5), -- Beelzeblub
-					
-					"523" .. mod.Random(2), -- Rainmaker
-					"523" .. mod.Random(3) -- Min Min
-				)
-			elseif typ == 5 then
-				return choose(
-					"518" .. mod.Random(4), -- Wormwood
-					"517" .. mod.Random(5), -- Beelzeblub
-					
-					"519" .. mod.Random(4), -- Clog
-					"532" .. mod.Random(2), -- Turdlet
-					"5330" -- Colostomia
-				)
-			end
-		elseif stg <= 4 then
-			if typ == 0 then	
-				return choose(
-					"202" .. mod.Random(5), -- Peep
-					"328" .. mod.Random(3), -- Gurdy Jr.
-					"339" .. (4 + mod.Random(3)), -- Big Horn,
-					"527" .. mod.Random(4), -- Bumbino
-					choose("3398", "3399", "3404", "3405"), -- Rag Mega
-					
-					"103" .. mod.Random(2), -- Chub
-					"104" .. mod.Random(4), -- Gurdy
-					"503" .. mod.Random(5), -- Mega Maw
-					"505" .. mod.Random(4), -- Mega Fatty
-					"110" .. mod.Random(4), -- C.H.A.D.
-					"110" .. (6 + mod.Random(3)) -- Stain
-				)
-			elseif typ == 1 then
-				return choose(
-					"202" .. mod.Random(5), -- Peep
-					"328" .. mod.Random(3), -- Gurdy Jr.
-					"339" .. (4 + mod.Random(3)), -- Big Horn,
-					"527" .. mod.Random(4), -- Bumbino
-					choose("3398", "3399", "3404", "3405"), -- Rag Mega
-					
-					"237" .. mod.Random(3), -- Carrion Queen
-					"329" .. mod.Random(5), -- The Husk
-					"336" .. mod.Random(3), -- The Wrethced
-					"510" .. mod.Random(6), -- Polycephalus
-					"508" .. mod.Random(4), -- Dark One
-					"338" .. (4 + mod.Random(5)), -- Frail
-					choose("1079", "1085", "1086", "1087") -- Forsaken
-				)
-			elseif typ == 2 then
-				return choose(
-					"202" .. mod.Random(5), -- Peep
-					"328" .. mod.Random(3), -- Gurdy Jr.
-					"339" .. (4 + mod.Random(3)), -- Big Horn,
-					"527" .. mod.Random(4), -- Bumbino
-					choose("3398", "3399", "3404", "3405"), -- Rag Mega
-					
-					"103" .. mod.Random(2), -- Chub
-					"104" .. mod.Random(4), -- Gurdy
-					"503" .. mod.Random(5), -- Mega Maw
-					"505" .. mod.Random(4), -- Mega Fatty
-					"110" .. mod.Random(4), -- C.H.A.D.
-					"110" .. (6 + mod.Random(3)), -- Stain
-					"338" .. (4 + mod.Random(5)), -- Frail
-					choose("1079", "1085", "1086", "1087") -- Forsaken
-				)
-			elseif typ == 4 then
-				return choose(
-					"525" .. mod.Random(6), -- Reap Creep
-					"522" .. mod.Random(6), -- Hornfell
-					"508" .. mod.Random(4) -- Dark One (because here's too few fitting bosses)
-				)
-			elseif typ == 5 then
-				return choose(
-					"524" .. mod.Random(4), -- The Pile
-					"525" .. mod.Random(4), -- Singe
-					"602" .. mod.Random(2), -- Singe
-					"522" .. mod.Random(6) -- Hornfell
-				)
-			end
-		elseif stg <= 6 then
-			if typ == 0 or typ == 2 then	
-				return choose(
-					"203" .. mod.Random(3), -- Loki
-					"340" .. (6 + mod.Random(3)), -- Sisters Vis
-					"1116", -- Brownie
-					
-					"105" .. mod.Random(4), -- Monstro II
-					"111" .. mod.Random(4), -- Gish
-					"506" .. mod.Random(4), -- The Cage
-					"504" .. mod.Random(5), -- The Gate
-					"525" .. mod.Random(6) -- Reap Creep
-				)
-			elseif typ == 1 then
-				return choose(
-					"203" .. mod.Random(3), -- Loki
-					"340" .. (6 + mod.Random(3)), -- Sisters Vis
-					"1116", -- Brownie
-					
-					"330" .. mod.Random(3), -- The Bloat
-					"335" .. mod.Random(3), -- Mask of Infamy
-					"509" .. mod.Random(4), -- The Adversary
-					"524" .. mod.Random(4) -- The Pile
-				)
-			elseif typ == 4 then
-				return choose(
-					"537" .. mod.Random(2), -- Siren
-					"529" .. mod.Random(3), -- Heretic
-					"509" .. mod.Random(4), -- The Adversary
-					"330" .. mod.Random(3) -- The Bloat
-				)
-			elseif typ == 5 then
-				return choose(
-					"530" .. mod.Random(1), -- The Visage
-					"601" .. mod.Random(2), -- Horny Boys
-					"330" .. mod.Random(3), -- The Bloat
-					"504" .. mod.Random(5) -- The Gate
-				)
-			end
-		elseif stg <= 8 then
-			if typ <= 2 then
-				return choose(
-					"331" .. mod.Random(3), -- Lokii
-					"107" .. mod.Random(5), -- Scolex
-					"204" .. mod.Random(3), -- Blastocyst
-					"507" .. mod.Random(2), -- Mama Gurdy
-					"330" .. mod.Random(3), -- The Bloat
-					"340" .. mod.Random(3), -- Daddy Long Legs
-					"341" .. mod.Random(3), -- Triachnid
-					"5152" -- Matriarch
-				)
-			else	
-				return choose(
-					"536" .. mod.Random(2), -- Scourge
-					"535" .. mod.Random(2), -- Chimera
-					"535" .. mod.Random(2), -- Chimera
-					"5340", -- Rotgut
-					"5152" -- Matriarch
-				)
-			end
-		else
-			if stg == 10 then
-				if typ == 0 then return "3600" end
-				if typ == 1 then return "3380" end
-			elseif stg == 11 then
-				if typ == 0 then return "5130" end
-				if typ == 1 then return "3390" end
-			end
-		end
-		
-		return "1010"
-	end
-}
-
-
+-- floorgen stuff
 function mod.GetRoomByIdx(index, dim)
 	if dim == nil then dim = -1 end
 
@@ -332,7 +36,47 @@ function mod.RoomGetNeighbors(index, dim)
 	return count
 end
 
-function mod.UpdateAscendedStatus()
+-- ascension loading
+mod.AscensionCallbacks = { }
+
+mod.AscensionIncludes = {
+	"1_discharged_active_items",
+	"2_less_room_rewards",
+	"3_higher_shop_prices",
+	"4_less_special_rooms",
+	"5_full_heart_damage_ch3",
+	"6_weaker_soul_hearts",
+	"7_broken_hearts",
+	"8_items_dont_grant_health",
+	"9_extra_boss_room",
+	"10_room_may_not_gain_charge",
+	"11_worse_beggars",
+	"12_consumable_cap",
+	"13_less_iframes",
+	"14_spookster"
+}
+
+function mod:LoadAscensions()
+	local files = mod.AscensionIncludes
+
+	mod.AscensionCallbacks = { }
+
+	for n, v in pairs(files) do
+		if n > Ascended.Ascension then
+			break
+		end
+		
+		AscensionInit = nil
+		
+		include("scripts.ascensions." .. v)
+		
+		if AscensionDesc ~= nil then
+			table.insert(Ascended.EffectDescriptions, AscensionDesc)
+		end
+	end
+end
+
+function mod:InitAscensions()
 	local player = mod.GetCurrentChar()
 	
 	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD and game.Challenge == 0
@@ -342,94 +86,108 @@ function mod.UpdateAscendedStatus()
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
 		if Ascended.Freeplay then
-			local m = #Ascended.EffectDescriptions
+			local m = #mod.AscensionIncludes
 			Ascended.SetAscension(player, m)
 		end
-	else
-		Ascended.SetAscension(player, 0)
+
+		mod:LoadAscensions()
+	else Ascended.SetAscension(player, 0) end
+end
+
+-- callbacks 
+function mod:AddAscensionCallback(name, ascension, func, ...)
+	if mod.AscensionCallbacks[name] == nil then
+		mod.AscensionCallbacks[name] = {}
+	end
+
+	if Ascended.Ascension >= ascension then
+		table.insert(mod.AscensionCallbacks[name], {ascension, func})
 	end
 end
 
-function mod:postPlayerInit()
-	if game.TimeCounter > 0 then return end
+function mod:FireAscensionCallback(name, ...)
+	local list = mod.AscensionCallbacks[name]
 
-	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
-	mod.targetAccomplished = false
-	mod.UI.leftstartroom = false
-	mod.SecondBossRoom = -1
+	if list == nil then return end
 
-	mod.UpdateAscendedStatus()
+	for _, v in pairs(list) do
+		if Ascended.Ascension >= v[1] then
+			local r = v[2](...)
+
+			if r ~= nil then
+				return r
+			end
+		end
+	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.postPlayerInit)
-
-function mod.newLevel()
+-- rest
+function mod:NewLevel()
 	if game:IsGreedMode() then return end
 
+	--[[
 	local stage = level:GetStage()
 
+	
 	mod.SecondBossRoomLayout = Ascended.DecideBoss()
 	
-	if Ascended.Current >= 9 and stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
+	if Ascended.Ascension >= 9 and stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
 		mod:TryGenerateSecondBoss()
 
 		if level:GetStage() == 2 and level:GetStageType() >= 3 then
 			mod:TryGenerateSecondBoss(1)
 		end
-	end
+	end]]
+	
+	mod:FireAscensionCallback("NewLevel")
 
-	if Ascended.Current >= 4 and level:GetStage() <= 8 then
+	--[[if Ascended.Ascension >= 4 and level:GetStage() <= 8 then
 		mod:removeSpecialRooms()
-	end
+	end]]
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.newLevel)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewLevel)
 
-function mod.handleCommand(_, cmd, params)
-	if cmd == "ascent" or cmd == "ascend" then
-		local player = mod.GetCurrentChar()
-		Ascended.SetAscension(player, tonumber(params))
-		print("Set ascension for " .. player .. " to " .. tonumber(params))
-		mod:saveAscensionData()
-	end
-end
+mod.PostCleanAward = false
 
-mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, mod.handleCommand)
+function mod:PostPlayerInit(player)
+	if game.TimeCounter > 0 then return end
 
+	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
 
-
--- Include other scripts
-local includes = {
-	"scripts.load",
-	"scripts.ui",
-
-	"scripts.ascensions.1_discharged_active_items",
-	"scripts.ascensions.2_less_room_rewards",
-	"scripts.ascensions.3_higher_shop_prices",
-	"scripts.ascensions.4_less_special_rooms",
-	"scripts.ascensions.5_full_heart_damage_ch3",
-	"scripts.ascensions.6_weaker_soul_hearts",
-	"scripts.ascensions.7_broken_hearts",
-	"scripts.ascensions.8_items_dont_grant_health",
-	"scripts.ascensions.9_extra_boss_room",
-	"scripts.ascensions.10_room_may_not_gain_charge",
-	"scripts.ascensions.11_worse_beggars",
-	"scripts.ascensions.12_consumable_cap",
-	-- "scripts.ascensions.13_faster_enemies",
-	"scripts.ascensions.13_less_iframes",
-	"scripts.ascensions.14_spookster",
-
-	"scripts.dss.ascendedmenu",
-
-	"scripts.test"
-}
-
-for _, v in ipairs(includes) do
-	AscensionDesc = nil
+	mod.UI.leftstartroom = false
+	mod.SecondBossRoom = -1
 	
-	include(v)
-	
-	if AscensionDesc ~= nil then
-		table.insert(Ascended.EffectDescriptions, AscensionDesc)
-	end
+	mod:InitAscensions()
+
+	mod:FireAscensionCallback("NewRun", player)
 end
+
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.PostPlayerInit)
+
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function(_, player)
+	if mod.PostCleanAward then
+		mod:FireAscensionCallback("PostRoomAward", player)
+		mod.PostCleanAward = false
+	end
+
+	mod:FireAscensionCallback("PlayerUpdate", player)
+end)
+
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pickup)
+	mod:FireAscensionCallback("PickupUpdate", pickup)
+end)
+
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function(_, rng)
+	local r = mod:FireAscensionCallback("PreRoomAward", rng)
+
+	if r ~= nil then
+		return r
+	end
+end)
+
+
+include("scripts.load")
+include("scripts.ui")
+include("scripts.dss.ascendedmenu")
+include("scripts.test")

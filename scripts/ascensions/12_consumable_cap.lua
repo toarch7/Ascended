@@ -1,6 +1,6 @@
 AscensionDesc = "Less room for consumables"
 
-local mod = AscendedModref
+local mod = Ascended
 
 local Properties = {
     CoinCap = 30,
@@ -9,7 +9,7 @@ local Properties = {
 }
 
 function mod:handleCollectiblesCap(pick, colllider)
-	if Ascended.Current < 12 then return end
+	if Ascended.Ascension < 12 then return end
     
 	local player = colllider:ToPlayer()
 

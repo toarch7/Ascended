@@ -1,6 +1,6 @@
 AscensionDesc = "Items don't heal you on pickup"
 
-local mod = AscendedModref
+local mod = Ascended
 
 mod.healRemovalData = {}
 
@@ -16,7 +16,7 @@ function mod:healthUpItemHandling(player, a)
     if mod.healRemovalData[h] ~= nil and player:IsItemQueueEmpty() then
 		local oldhealth = mod.healRemovalData[h]
 
-		if Ascended.Current >= 8 and player:GetHearts() > oldhealth then
+		if Ascended.Ascension >= 8 and player:GetHearts() > oldhealth then
 			player:AddHearts(oldhealth - player:GetHearts())
 		end
 

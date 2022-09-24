@@ -1,6 +1,6 @@
 AscensionDesc = "Room may not gain you charge"
 
-local mod = AscendedModref
+local mod = Ascended
 
 mod.postSpawnCleanAward = false
 mod.roomsCleared = 0
@@ -11,7 +11,7 @@ function mod:activeItemDischarge(p)
 			mod.roomsCleared = 0
 		end
 		
-		if Ascended.Current >= 10 and mod.roomsCleared % 3 == 0 then
+		if Ascended.Ascension >= 10 and mod.roomsCleared % 3 == 0 then
 			local slots = { ActiveSlot.SLOT_PRIMARY, ActiveSlot.SLOT_SECONDARY, ActiveSlot.SLOT_POCKET, ActiveSlot.SLOT_POCKET2 }
 			
 			for _, v in pairs(slots) do
