@@ -3,24 +3,6 @@ local mod = AscendedModref
 
 mod.menusavedata = nil
 
-local json = require("json")
-
-function mod.GetSaveData()
-    if not mod.menusavedata then
-        if Isaac.HasModData(mod) then
-            mod.menusavedata = json.decode(Isaac.LoadModData(mod))
-        else
-            mod.menusavedata = {}
-        end
-    end
-
-    return mod.menusavedata
-end
-
-function mod.StoreSaveData()
-    Isaac.SaveModData(mod, json.encode(mod.menusavedata))
-end
-
 local DSSModName = "Ascended"
 local DSSCoreVersion = 5
 local MenuProvider = {}
@@ -151,7 +133,7 @@ local ascendeddirectory = {
                 str = "freeplay",
                 choices = {"on", "off"},
                 
-                setting = 1,
+                setting = 2,
 
                 tooltip = { strset = { 'disable or', 'enable', 'ascension', 'progress.', 'enabling it', 'will set the', 'highest level', 'available' } },
 
@@ -163,6 +145,11 @@ local ascendeddirectory = {
 
                 store = function(var)
                     mod.GetSaveData().freeplay = var
+
+                    if not mod.UI.leftstartroom then
+                        mod.UpdateAscendedStatus()
+                        Isaac.ExecuteCommand("restart")
+                    end
                 end
             },
             

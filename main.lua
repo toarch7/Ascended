@@ -13,6 +13,24 @@ local function choose(...)
 	return options[mod.rng:RandomInt(#options) + 1]
 end
 
+local json = require("json")
+
+function mod.GetSaveData()
+    if not mod.menusavedata then
+        if Isaac.HasModData(mod) then
+            mod.menusavedata = json.decode(Isaac.LoadModData(mod))
+        else
+            mod.menusavedata = {}
+        end
+    end
+
+    return mod.menusavedata
+end
+
+function mod.StoreSaveData()
+    Isaac.SaveModData(mod, json.encode(mod.menusavedata))
+end
+
 function mod.GetCurrentChar()
 	local p = Isaac.GetPlayer(0)
 
@@ -314,58 +332,12 @@ function mod.RoomGetNeighbors(index, dim)
 	return count
 end
 
-
--- Include other scripts
-local includes = {
-	"scripts.load",
-	"scripts.ui",
-
-	"scripts.ascensions.1_discharged_active_items",
-	"scripts.ascensions.2_less_room_rewards",
-	"scripts.ascensions.3_higher_shop_prices",
-	"scripts.ascensions.4_less_special_rooms",
-	"scripts.ascensions.5_full_heart_damage_ch3",
-	"scripts.ascensions.6_weaker_soul_hearts",
-	"scripts.ascensions.7_broken_hearts",
-	"scripts.ascensions.8_items_dont_grant_health",
-	"scripts.ascensions.9_extra_boss_room",
-	"scripts.ascensions.10_room_may_not_gain_charge",
-	"scripts.ascensions.11_worse_beggars",
-	"scripts.ascensions.12_consumable_cap",
-	"scripts.ascensions.13_faster_enemies",
-	"scripts.ascensions.14_less_iframes",
-	"scripts.ascensions.15_spookster",
-
-	"scripts.dss.ascendedmenu",
-
-	"scripts.test"
-}
-
-for _, v in ipairs(includes) do
-	AscensionDesc = nil
-	
-	include(v)
-	
-	if AscensionDesc ~= nil then
-		table.insert(Ascended.EffectDescriptions, AscensionDesc)
-	end
-end
-
-
-function mod:postPlayerInit()
-	if game.TimeCounter > 0 then return end
-
+function mod.UpdateAscendedStatus()
 	local player = mod.GetCurrentChar()
-
+	
 	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD and game.Challenge == 0
-	
-	Ascended.Freeplay = mod:GetSaveData().freeplay
-	
-	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
-	mod.targetAccomplished = false
-	mod.UI.leftstartroom = false
-	mod.SecondBossRoom = -1
-	
+	Ascended.Freeplay = mod.GetSaveData().freeplay == 1
+
 	if Ascended.Active then
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
@@ -375,6 +347,17 @@ function mod:postPlayerInit()
 	else
 		Ascended.SetAscension(player, 0)
 	end
+end
+
+function mod:postPlayerInit()
+	if game.TimeCounter > 0 then return end
+
+	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
+	mod.targetAccomplished = false
+	mod.UI.leftstartroom = false
+	mod.SecondBossRoom = -1
+
+	mod.UpdateAscendedStatus()
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.postPlayerInit)
@@ -411,3 +394,41 @@ function mod.handleCommand(_, cmd, params)
 end
 
 mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, mod.handleCommand)
+
+
+
+-- Include other scripts
+local includes = {
+	"scripts.load",
+	"scripts.ui",
+
+	"scripts.ascensions.1_discharged_active_items",
+	"scripts.ascensions.2_less_room_rewards",
+	"scripts.ascensions.3_higher_shop_prices",
+	"scripts.ascensions.4_less_special_rooms",
+	"scripts.ascensions.5_full_heart_damage_ch3",
+	"scripts.ascensions.6_weaker_soul_hearts",
+	"scripts.ascensions.7_broken_hearts",
+	"scripts.ascensions.8_items_dont_grant_health",
+	"scripts.ascensions.9_extra_boss_room",
+	"scripts.ascensions.10_room_may_not_gain_charge",
+	"scripts.ascensions.11_worse_beggars",
+	"scripts.ascensions.12_consumable_cap",
+	"scripts.ascensions.13_faster_enemies",
+	"scripts.ascensions.14_less_iframes",
+	"scripts.ascensions.15_spookster",
+
+	"scripts.dss.ascendedmenu",
+
+	"scripts.test"
+}
+
+for _, v in ipairs(includes) do
+	AscensionDesc = nil
+	
+	include(v)
+	
+	if AscensionDesc ~= nil then
+		table.insert(Ascended.EffectDescriptions, AscensionDesc)
+	end
+end

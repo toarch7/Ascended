@@ -9,20 +9,9 @@ function mod.loadAscensionData()
 	end
 
 	mod.roomsCleared = Ascended.Data.roomsCleared
-	
-	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD
-	
-	local player = mod.GetCurrentChar()
 
-	if Ascended.Active then
-		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
-
-		if Ascended.Freeplay then
-			Ascended.SetAscension(player, 15)
-		end
-	else
-		Ascended.SetAscension(player, 0)
-	end
+	print(mod.GetSaveData().freeplay)
+	mod.UpdateAscendedStatus()
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.loadAscensionData)
@@ -37,7 +26,8 @@ end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.saveAscensionData)
 
 
-function mod:postGameOver(death) -- ascension progress
+function mod:postGameOver(death)
+	-- ascension progress
 	if not death and Ascended.Active and not Ascended.Freeplay then
 		if game:GetLevel():GetStage() ~= 10 then
 			local player = mod.GetCurrentChar()
@@ -49,7 +39,6 @@ function mod:postGameOver(death) -- ascension progress
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.postGameOver)
-
 
 
 -- load saved data upon reloading the mod
