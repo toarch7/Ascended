@@ -26,8 +26,6 @@ function mod:removeSpecialRooms() -- called in main.lua
 
                         if newroom == nil then return end
 
-                        print(room.Data.Type, i)
-
                         room.Data = newroom.Data
 
                         Isaac.ExecuteCommand("goto 6 6 0")

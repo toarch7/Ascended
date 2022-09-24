@@ -10,7 +10,6 @@ function mod.loadAscensionData()
 
 	mod.roomsCleared = Ascended.Data.roomsCleared
 
-	print(mod.GetSaveData().freeplay)
 	mod.UpdateAscendedStatus()
 end
 

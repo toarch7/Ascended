@@ -42,8 +42,6 @@ function mod:postPickupUpdate(p)
 			mod.PedestalData[seed] = true
 			
 			p.Charge = 0
-
-			print(seed)
 		end
 	end
 end

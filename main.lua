@@ -45,7 +45,7 @@ function mod.GetCurrentChar()
 	if t == 39 then t = 37 end
 	if t == 40 then t = 35 end
 
-	return t
+	return player:GetName() .. t
 end
 
 function mod.Random(n)

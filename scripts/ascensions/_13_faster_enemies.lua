@@ -1,4 +1,4 @@
-AscensionDesc = "Enemies act faster"
+--[[ AscensionDesc = "Enemies act faster"
 
 local mod = AscendedModref
 local game = Game()
@@ -25,4 +25,4 @@ function mod:makeEveryoneFaster()
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.makeEveryoneFaster)
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.makeEveryoneFaster) ]] --
