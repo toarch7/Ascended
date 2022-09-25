@@ -4,7 +4,7 @@ local mod = Ascended
 local game = Game()
 local level = game:GetLevel()
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PreRoomAward", function(rng)
 		if rng:RandomFloat() <= 0.25 then
 			local r = mod.GetRoomByIdx(level:GetCurrentRoomIndex())

@@ -2,7 +2,7 @@ AscensionDesc = "Broken destiny"
 
 local mod = Ascended
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("PlayerInit", function(player)
         if player:GetPlayerType() == 33 then return end
         

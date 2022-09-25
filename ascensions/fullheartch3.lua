@@ -4,7 +4,7 @@ local mod = Ascended
 local game = Game()
 local level = game:GetLevel()
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("PlayerDamaged", function(p, amount)
         if p:HasCollectible(CollectibleType.COLLECTIBLE_WAFER) then return end
 

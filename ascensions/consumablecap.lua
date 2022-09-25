@@ -8,7 +8,7 @@ local Properties = {
     BombCap = 10
 }
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("PrePickupCollision", function(pick, colllider)
         local player = colllider:ToPlayer()
 

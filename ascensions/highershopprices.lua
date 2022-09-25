@@ -2,7 +2,7 @@ AscensionDesc = "Higher shop prices"
 
 local mod = Ascended
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PickupUpdate", function(p)
 		if p.Price > 0 and p.AutoUpdatePrice then
 			p.Price = math.floor(p.Price * 1.35)

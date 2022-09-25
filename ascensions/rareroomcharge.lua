@@ -4,7 +4,7 @@ local mod = Ascended
 
 mod.RoomsCleared = 0
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PostRoomAward", function()
 		if mod.postSpawnCleanAward then
 			if mod.roomsCleared == nil then

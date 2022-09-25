@@ -40,8 +40,14 @@ function mod:LoadAscensionData(continued)
 
 	mod.RoomsCleared = Ascended.Data.RoomsCleared
 
-	if game.TimeCounter > 0 then
-		mod:InitAscensions()
+	mod:InitAscensions()
+
+	if not continued then
+		local plrs = game:GetNumPlayers() - 1
+
+		for i = 0, plrs do
+			mod:FireAscensionCallback("PlayerInit", Isaac.GetPlayer(i))
+		end
 	end
 end
 
@@ -66,5 +72,5 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.PostGameOver)
 
 -- init once again upon a restart
 if Isaac.GetPlayer(0) ~= nil then
-	mod:LoadAscensionData()
+	mod:LoadAscensionData(true)
 end

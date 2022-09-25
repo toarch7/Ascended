@@ -2,7 +2,7 @@ AscensionDesc = "Less invulnerability"
 
 local mod = Ascended
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("PlayerUpdate", function (p)
         if p:GetDamageCooldown() > 0 then
             if p:GetDamageCooldown() > 60 and p:GetDamageCooldown() <= 90 then

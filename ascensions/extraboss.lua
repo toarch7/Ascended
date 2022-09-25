@@ -102,7 +102,7 @@ function mod:TryGenerateSecondBoss(dim)
 	mod.InGenerationLoop = false
 end
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PreRoomAward", function()
 		if level:GetCurrentRoomIndex() == mod.SecondBossRoom then
 			local room = game:GetRoom()

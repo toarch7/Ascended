@@ -2,7 +2,7 @@ AscensionDesc = "Weaker soul hearts"
 
 local mod = Ascended
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("PlayerDamaged", function(p, amount, flags)
 		if p:HasCollectible(CollectibleType.COLLECTIBLE_WAFER) then return end
 

@@ -11,7 +11,7 @@ local beggarvariantlist = {
 mod.ReplaceBeggarPrize = false
 mod.ReplaceBeggarEntity = nil
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function()
 		for _, vari in ipairs(beggarvariantlist) do
 			local beggars = Isaac.FindByType(6, vari)

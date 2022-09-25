@@ -36,7 +36,7 @@ function mod:RemoveSpecialRooms()
 	end
 end
 
-function AscensionInit()
+AscensionInit = function()
     mod:AddAscensionCallback("NewLevel", function ()
         if level:GetStage() <= 8 then
             mod:RemoveSpecialRooms()

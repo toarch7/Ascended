@@ -125,7 +125,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function()
 		if mod.SpooksterTimer > 0 then
 			mod.SpooksterTimer = mod.SpooksterTimer - 1

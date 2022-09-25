@@ -40,20 +40,20 @@ end
 mod.AscensionCallbacks = { }
 
 mod.AscensionIncludes = {
-	"1_discharged_active_items",
-	"2_less_room_rewards",
-	"3_higher_shop_prices",
-	"4_less_special_rooms",
-	"5_full_heart_damage_ch3",
-	"6_weaker_soul_hearts",
-	"7_broken_hearts",
-	"8_items_dont_grant_health",
-	"9_extra_boss_room",
-	"10_room_may_not_gain_charge",
-	"11_worse_beggars",
-	"12_consumable_cap",
-	"13_less_iframes",
-	"14_spookster"
+	"dischargedactives",
+	"lessrewards",
+	"highershopprices",
+	"emptierfloors",
+	"fullheartch3",
+	"fullheartsoul",
+	"brokendestiny",
+	"itemsdontheal",
+	"extraboss",
+	"rareroomcharge",
+	"worsebeggars",
+	"consumablecap",
+	"lessiframes",
+	"spookster"
 }
 
 function mod:LoadAscensions()
@@ -62,14 +62,13 @@ function mod:LoadAscensions()
 	mod.AscensionCallbacks = { }
 
 	for n, v in pairs(files) do
+		print(n, Ascended.Ascension)
+
 		if n > Ascended.Ascension then
 			break
 		end
 		
-		AscensionInit = nil
-		AscensionDesc = nil
-
-		include("scripts.ascensions." .. v)
+		include("ascensions." .. v)
 		
 		if AscensionInit ~= nil then
 			AscensionInit()
@@ -80,6 +79,8 @@ function mod:LoadAscensions()
 		end
 	end
 end
+
+
 
 function mod:InitAscensions()
 	local player = mod.GetCurrentChar()
@@ -133,10 +134,6 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, function (_, player)
 	
 	mod.UI.leftstartroom = false
 	mod.SecondBossRoom = -1
-
-	mod:InitAscensions()
-
-	mod:FireAscensionCallback("PlayerInit", player)
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function(_, player)
@@ -193,7 +190,7 @@ end)
 
 -- includes
 
-include("scripts.load")
-include("scripts.ui")
-include("scripts.dss.ascendedmenu")
-include("scripts.test")
+include("a_scripts.load")
+include("a_scripts.ui")
+include("a_scripts.dss.ascendedmenu")
+include("a_scripts.test")

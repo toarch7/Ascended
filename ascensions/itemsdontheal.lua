@@ -4,7 +4,7 @@ local mod = Ascended
 
 mod.HealRemovalData = {}
 
-function AscensionInit()
+AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function(player)
 		local h = GetPtrHash(player)
 

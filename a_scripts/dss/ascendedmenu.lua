@@ -65,7 +65,7 @@ function MenuProvider.SaveMenusPoppedUp(var)
     mod.GetSaveData().MenusPoppedUp = var
 end
 
-local DSSInitializerFunction = include("scripts.dss.dssmenucore")
+local DSSInitializerFunction = include("a_scripts.dss.dssmenucore")
 
 local dssmod = DSSInitializerFunction(DSSModName, DSSCoreVersion, MenuProvider)
 
@@ -146,7 +146,6 @@ local ascendeddirectory = {
                     mod.GetSaveData().freeplay = var
 
                     if not mod.UI.leftstartroom then
-                        mod.UpdateAscendedStatus()
                         Isaac.ExecuteCommand("restart")
                     end
                 end

@@ -6,7 +6,9 @@ local sfx = SFXManager()
 
 mod.PedestalData = {}
 
-function AscensionInit()
+print("mm")
+
+AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function(p)
 		if game.TimeCounter == 10 then
 			local any = false
