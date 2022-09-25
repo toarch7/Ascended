@@ -61,7 +61,7 @@ function mod:PostGameOver(death)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.postGameOver)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.PostGameOver)
 
 
 -- init once again upon a restart

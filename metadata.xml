@@ -20,7 +20,7 @@ Speaks for itself
 [*] [b]VI - Weaker soul hearts[/b]
 Soul hearts will now receive full heart damage. Isn't affected by previous ascension.
 [*] [b]VII - Broken destiny[/b]
-All characters (except T. Keeper) start with three broken hearts (or 1 in case of regular Keeper)
+All characters (except T. Keeper) start with three broken hearts (or one in case of regular Keeper)
 [*] [b]VIII - Items don't heal you on pickup[/b]
 Disables healing for picking up items in any shape or form.
 [*] [b]IX - Extra Boss Room each floor[/b]
@@ -42,20 +42,20 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 [h1]Additional notes[/h1]
 [list]
 [*] To make this work, you need to start a new hard mode run. Beating the game with Ascended active will increase ascension level for current character that will persist between every run.
-[*] Any progress is disabled in: Normal mode, Greed/Greedier mode, Challenges.
-[*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff
-[*] You can enable freeplay mode in DSS options, which makes progression an optional part.
+[*] All effects and any progress are disabled in: Normal mode, Greed/Greedier mode, Challenges.
+[*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff.
+[*] You can enable freeplay mode in DSS options, which makes progression optional part.
 [*] It's possible to change Ascension number thru `ascend x` console command, where the `x` is a needed ascension. 
 [*] Works in multiplayer (both local and through networktest)
-[*] Should work fine for most modded characters
-[*] This gamemode does its best mostly during Eden streaks
+[*] Should work fine for most modded characters.
+[*] This gamemode does its best mostly during Eden streaks.
 [/list]
 
 [h1]Todo[/h1]
 [list]
 [*] Up to 20 ascensions
 [*] Unlockables
-[*] StageAPI compat
+[*] StageAPI compat (or custom bosses in general)
 [*] Fix A9 issues with minimap and something else
 [/list]
 
