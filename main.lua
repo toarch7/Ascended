@@ -38,48 +38,38 @@ end
 
 -- ascension loading
 mod.AscensionCallbacks = { }
-
-mod.AscensionIncludes = {
-	"dischargedactives",
-	"lessrewards",
-	"highershopprices",
-	"emptierfloors",
-	"fullheartch3",
-	"fullheartsoul",
-	"brokendestiny",
-	"itemsdontheal",
-	"extraboss",
-	"rareroomcharge",
-	"worsebeggars",
-	"consumablecap",
-	"lessiframes",
-	"spookster"
-}
+mod.AscensionInitializers = { }
 
 function mod:LoadAscensions()
-	local files = mod.AscensionIncludes
+	local files = {
+		"1_discharged_actives",
+		"2_less_rewards",
+		"3_higher_shop_prices",
+		"4_emptier_floors",
+		"5_fullheart_ch3",
+		"6_fullheart_soul",
+		"7_broken_destiny",
+		"8_items_dont_heal",
+		"9_extra_boss",
+		"10_rare_room_charge",
+		"11_worse_beggars",
+		"12_consumable_cap",
+		"13_less_iframes",
+		"14_spookster"
+	}
 
 	mod.AscensionCallbacks = { }
 
-	for n, v in pairs(files) do
-		print(n, Ascended.Ascension)
-
-		if n > Ascended.Ascension then
-			break
-		end
-		
-		include("ascensions." .. v)
+	for _, v in pairs(files) do
+		include("a_scripts.ascensions." .. v)
 		
 		if AscensionInit ~= nil then
-			AscensionInit()
-			
-			if AscensionDesc ~= nil then
-				table.insert(Ascended.EffectDescriptions, AscensionDesc)
-			end
+			table.insert(mod.AscensionInitializers, { AscensionInit, AscensionDesc })
 		end
 	end
 end
 
+mod:LoadAscensions()
 
 
 function mod:InitAscensions()
@@ -96,7 +86,17 @@ function mod:InitAscensions()
 			Ascended.SetAscension(player, m)
 		end
 
-		mod:LoadAscensions()
+		mod.EffectDescriptions = {}
+
+		for n, v in pairs(mod.AscensionInitializers) do
+			if n > Ascended.Ascension then
+				break
+			end
+
+			v[1]()
+
+			table.insert(mod.EffectDescriptions, v[2])
+		end
 	else Ascended.SetAscension(player, 0) end
 end
 

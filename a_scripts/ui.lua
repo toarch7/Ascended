@@ -95,6 +95,7 @@ function mod:DrawAscensionIcon()
 			p.X = p.X + 0.5
 			p.Y = p.Y - 0.5
 		end
+
 		
 		f:DrawString(n, p.X + 0.5, p.Y - 2.5, KColor(1, 1, 0, 1), 10, true)
 	end
