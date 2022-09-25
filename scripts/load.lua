@@ -56,7 +56,7 @@ function mod:PostGameOver(death)
 			local player = mod.GetCurrentChar()
 			local asc = math.min(#Ascended.EffectDescriptions, Ascended.Ascension + 1)
 			Ascended.SetAscension(player, asc)
-			mod:saveAscendedData()
+			mod:SaveAscensionData()
 		end
 	end
 end
