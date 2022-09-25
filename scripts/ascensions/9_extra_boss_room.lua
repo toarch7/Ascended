@@ -7,8 +7,9 @@ local sfx = SFXManager()
 
 mod.SecondBossRoom = -1
 mod.SecondBossRoomLayout = "1010"
+mod.InGenerationLoop = false
 
-function mod.GenerateExtraBoss(dim)
+function mod:GenerateExtraBoss(dim)
 	if dim == nil then dim = -1 end
 
 	local hasmirrorworld = (level:GetStage() == 2 and level:GetStageType() >= 3)
@@ -74,9 +75,7 @@ function mod.GenerateExtraBoss(dim)
 	return -1
 end
 
-mod.InGenerationLoop = false
-
-function mod:TryGenerateSecondBoss(dim) -- called in main.lua
+function mod:TryGenerateSecondBoss(dim)
 	if dim == nil then dim = -1 end
 	
 	local iter = 0
@@ -84,7 +83,7 @@ function mod:TryGenerateSecondBoss(dim) -- called in main.lua
 	mod.InGenerationLoop = true
 	
 	while iter <= 100 do
-		local res = mod.GenerateExtraBoss(dim)
+		local res = mod:GenerateExtraBoss(dim)
 
 		if res ~= -1 then
 			mod.SecondBossRoom = res
@@ -95,33 +94,51 @@ function mod:TryGenerateSecondBoss(dim) -- called in main.lua
 		
 		Isaac.ExecuteCommand("reseed")
 	end
+
+	print(mod.SecondBossRoom)
 	
 	level:UpdateVisibility()
 
 	mod.InGenerationLoop = false
 end
 
-function mod:removeSecondBossItem()
-	if level:GetCurrentRoomIndex() == mod.SecondBossRoom then
-		local room = game:GetRoom()
-		local any = false
-		
-		for i = 0, room:GetGridSize() do
-			local grid = room:GetGridEntity(i)
+function AscensionInit()
+	mod:AddAscensionCallback("PreRoomAward", function()
+		if level:GetCurrentRoomIndex() == mod.SecondBossRoom then
+			local room = game:GetRoom()
+			local any = false
+
+			for i = 0, room:GetGridSize() do
+				local grid = room:GetGridEntity(i)
+				
+				if grid and grid:ToPit() then
+					grid:ToPit():MakeBridge(nil)
+					Isaac.Spawn(1000, 15, 0, grid.Position, Vector.Zero, nil)
+					any = true
+				end
+			end
 			
-			if grid and grid:ToPit() then
-				grid:ToPit():MakeBridge(nil)
-				Isaac.Spawn(1000, 15, 0, grid.Position, Vector.Zero, nil)
-				any = true
+			if any then
+				sfx:Play(SoundEffect.SOUND_ROCK_CRUMBLE)
+			end
+			
+			return true
+		end
+	end)
+
+	mod:AddAscensionCallback("NewLevel", function()
+		if game:IsGreedMode() then return end
+
+		local stage = level:GetStage()
+
+		mod.SecondBossRoomLayout = Ascended.DecideBoss()
+		
+		if stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
+			mod:TryGenerateSecondBoss()
+
+			if level:GetStage() == 2 and level:GetStageType() >= 3 then
+				mod:TryGenerateSecondBoss(1)
 			end
 		end
-		
-		if any then
-			sfx:Play(SoundEffect.SOUND_ROCK_CRUMBLE)
-		end
-		
-		return true
-	end
+	end)
 end
-
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.removeSecondBossItem)

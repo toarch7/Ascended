@@ -124,36 +124,37 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 
-function mod:handleSpooksterSpawn()
-	if Ascended.Ascension >= 14 and mod.SpooksterTimer > 0 then
-		mod.SpooksterTimer = mod.SpooksterTimer - 1
 
-		if mod.SpooksterTimer <= 0 then
-			local rng = mod.rng
+function AscensionInit()
+	mod:AddAscensionCallback("PlayerUpdate", function()
+		if mod.SpooksterTimer > 0 then
+			mod.SpooksterTimer = mod.SpooksterTimer - 1
 
-			local room = game:GetRoom()
-			local w = room:GetGridWidth()
-			local h = room:GetGridHeight()
+			if mod.SpooksterTimer <= 0 then
+				local rng = mod.rng
 
-			local spawnpos = Vector(rng:RandomInt(w), rng:RandomInt(h))
+				local room = game:GetRoom()
+				local w = room:GetGridWidth()
+				local h = room:GetGridHeight()
 
-			if spawnpos.X > w / 2 then
-				spawnpos.X = spawnpos.X + 96
-			else
-				spawnpos.X = spawnpos.X - 96
+				local spawnpos = Vector(rng:RandomInt(w), rng:RandomInt(h))
+
+				if spawnpos.X > w / 2 then
+					spawnpos.X = spawnpos.X + 96
+				else
+					spawnpos.X = spawnpos.X - 96
+				end
+				
+				if spawnpos.Y > w / 2 then
+					spawnpos.Y = spawnpos.Y + 96
+				else
+					spawnpos.Y = spawnpos.Y - 96
+				end
+
+				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 631, 0, spawnpos, Vector.Zero, nil)
+
+				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 			end
-			
-			if spawnpos.Y > w / 2 then
-				spawnpos.Y = spawnpos.Y + 96
-			else
-				spawnpos.Y = spawnpos.Y - 96
-			end
-
-			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 631, 0, spawnpos, Vector.Zero, nil)
-
-			sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 		end
-	end
+	end)
 end
-
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.handleSpooksterSpawn)

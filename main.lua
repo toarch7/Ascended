@@ -67,11 +67,16 @@ function mod:LoadAscensions()
 		end
 		
 		AscensionInit = nil
-		
+		AscensionDesc = nil
+
 		include("scripts.ascensions." .. v)
 		
-		if AscensionDesc ~= nil then
-			table.insert(Ascended.EffectDescriptions, AscensionDesc)
+		if AscensionInit ~= nil then
+			AscensionInit()
+			
+			if AscensionDesc ~= nil then
+				table.insert(Ascended.EffectDescriptions, AscensionDesc)
+			end
 		end
 	end
 end
@@ -94,15 +99,13 @@ function mod:InitAscensions()
 	else Ascended.SetAscension(player, 0) end
 end
 
--- callbacks 
-function mod:AddAscensionCallback(name, ascension, func, ...)
+-- Callbacks
+function mod:AddAscensionCallback(name, func)
 	if mod.AscensionCallbacks[name] == nil then
 		mod.AscensionCallbacks[name] = {}
 	end
 
-	if Ascended.Ascension >= ascension then
-		table.insert(mod.AscensionCallbacks[name], {ascension, func})
-	end
+	table.insert(mod.AscensionCallbacks[name], func)
 end
 
 function mod:FireAscensionCallback(name, ...)
@@ -111,59 +114,30 @@ function mod:FireAscensionCallback(name, ...)
 	if list == nil then return end
 
 	for _, v in pairs(list) do
-		if Ascended.Ascension >= v[1] then
-			local r = v[2](...)
+		local r = v(...)
 
-			if r ~= nil then
-				return r
-			end
+		if r ~= nil then
+			return r
 		end
 	end
 end
 
--- rest
-function mod:NewLevel()
-	if game:IsGreedMode() then return end
-
-	--[[
-	local stage = level:GetStage()
-
-	
-	mod.SecondBossRoomLayout = Ascended.DecideBoss()
-	
-	if Ascended.Ascension >= 9 and stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
-		mod:TryGenerateSecondBoss()
-
-		if level:GetStage() == 2 and level:GetStageType() >= 3 then
-			mod:TryGenerateSecondBoss(1)
-		end
-	end]]
-	
-	mod:FireAscensionCallback("NewLevel")
-
-	--[[if Ascended.Ascension >= 4 and level:GetStage() <= 8 then
-		mod:removeSpecialRooms()
-	end]]
-end
-
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewLevel)
+---
 
 mod.PostCleanAward = false
 
-function mod:PostPlayerInit(player)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, function (_, player)
 	if game.TimeCounter > 0 then return end
 
 	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
-
+	
 	mod.UI.leftstartroom = false
 	mod.SecondBossRoom = -1
-	
+
 	mod:InitAscensions()
 
-	mod:FireAscensionCallback("NewRun", player)
-end
-
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.PostPlayerInit)
+	mod:FireAscensionCallback("PlayerInit", player)
+end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function(_, player)
 	if mod.PostCleanAward then
@@ -178,14 +152,46 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pickup)
 	mod:FireAscensionCallback("PickupUpdate", pickup)
 end)
 
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, function(_, pickup)
+	mod:FireAscensionCallback("PickupInit", pickup)
+end)
+
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function(_, rng)
 	local r = mod:FireAscensionCallback("PreRoomAward", rng)
+
+	mod.PostCleanAward = true
 
 	if r ~= nil then
 		return r
 	end
 end)
 
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, function(_, ent, amount, flags, src, frames)
+	mod:FireAscensionCallback("EntityDamaged", ent, amount, flags, src, frames)
+end)
+
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, function(_, ent, amount, flags, src, frames)
+	local p = ent:ToPlayer()
+
+	if p ~= nil then
+		mod:FireAscensionCallback("PlayerDamaged", p, amount, flags, src, frames)
+	end
+end, EntityType.ENTITY_PLAYER)
+
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function()
+	mod:FireAscensionCallback("NewLevel")
+end)
+
+mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pickup, collider, low)
+	local r = mod:FireAscensionCallback("PrePickupCollision", pickup, collider, low)
+
+	if r ~= nil then
+		return r
+	end
+end)
+
+
+-- includes
 
 include("scripts.load")
 include("scripts.ui")

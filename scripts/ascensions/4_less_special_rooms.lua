@@ -4,10 +4,8 @@ local mod = Ascended
 local game = Game()
 local level = game:GetLevel()
 
-function mod:removeSpecialRooms()
-    -- called in main.lua
-    
-	if game:IsGreedMode() then return end
+function mod:RemoveSpecialRooms()
+    if game:IsGreedMode() then return end
 
     local sidx = level:GetStartingRoomIndex()
 
@@ -36,4 +34,12 @@ function mod:removeSpecialRooms()
             end
         end
 	end
+end
+
+function AscensionInit()
+    mod:AddAscensionCallback("NewLevel", function ()
+        if level:GetStage() <= 8 then
+            mod:RemoveSpecialRooms()
+        end
+    end)
 end

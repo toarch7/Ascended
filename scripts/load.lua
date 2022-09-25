@@ -15,6 +15,10 @@ function mod.GetSaveData()
     return mod.menusavedata
 end
 
+function mod.StoreSaveData()
+    Isaac.SaveModData(mod, json.encode(mod.menusavedata))
+end
+
 function mod:SaveAscensionData()
 	if Ascended.Active then
 		if mod.RoomsCleared == nil then
@@ -29,14 +33,16 @@ end
 
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveAscensionData)
 
-function mod:LoadAscensionData()
+function mod:LoadAscensionData(continued)
 	if mod:HasData() then
 		Ascended.Data = json.decode(mod:LoadData())
 	end
 
 	mod.RoomsCleared = Ascended.Data.RoomsCleared
 
-	mod:InitAscensions()
+	if game.TimeCounter > 0 then
+		mod:InitAscensions()
+	end
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadAscensionData)
@@ -58,8 +64,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.postGameOver)
 
 
-
--- load saved data upon reloading the mod
+-- init once again upon a restart
 if Isaac.GetPlayer(0) ~= nil then
 	mod:LoadAscensionData()
 end

@@ -2,22 +2,20 @@ AscensionDesc = "Higher shop prices"
 
 local mod = Ascended
 
-function mod:postShopPickupUpdate(p)
-	if Ascended.Ascension < 3 then return end
-	
-	if p.Price > 0 and p.AutoUpdatePrice then
-		p.Price = math.floor(p.Price * 1.35)
+function AscensionInit()
+	mod:AddAscensionCallback("PickupUpdate", function(p)
+		if p.Price > 0 and p.AutoUpdatePrice then
+			p.Price = math.floor(p.Price * 1.35)
 
-		if p.Price == 9 then
-			p.Price = 10
-		elseif p.Price == 13 then
-			p.Price = 15
-		end
+			if p.Price == 9 then
+				p.Price = 10
+			elseif p.Price == 13 then
+				p.Price = 15
+			end
 
-		if p.SubType == CollectibleType.COLLECTIBLE_BOOM then
-			p.Price = 50
+			if p.SubType == CollectibleType.COLLECTIBLE_BOOM then
+				p.Price = 50
+			end
 		end
-	end
+	end)
 end
-
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.postShopPickupUpdate)

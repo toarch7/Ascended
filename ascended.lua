@@ -68,6 +68,8 @@ Ascended.SetAscension = function(character, level)
 end
 
 Ascended.DecideBoss = function()
+	local level = Game():GetLevel()
+	
 	local stg = level:GetStage()
 	local typ = level:GetStageType()
 	
@@ -78,7 +80,7 @@ Ascended.DecideBoss = function()
 				"101" .. mod.Random(8), -- Monstro
 				"205" .. mod.Random(3), -- Gemini
 				"102" .. mod.Random(8), -- Larry Jr.
-				"502" .. mod.Random(6), -- Dingle
+				"502" .. mod.Random(5), -- Dingle
 				"514" .. mod.Random(5), -- Gurglings
 				
 				"516" .. mod.Random(5), -- Baby Plum
@@ -90,7 +92,7 @@ Ascended.DecideBoss = function()
 			return choose(
 				"332" .. mod.Random(3), -- The Blighted Ovum
 				"334" .. mod.Random(5), -- Widow
-				"337" .. mod.Random(9), -- Pin
+				"337" .. mod.Random(8), -- Pin
 				"501" .. mod.Random(4), -- Haunt
 				"516" .. mod.Random(5), -- Baby Plum
 				choose("1019", "1029", "1035", "1036") -- Ragman
@@ -100,7 +102,7 @@ Ascended.DecideBoss = function()
 				"101" .. mod.Random(8), -- Monstro
 				"205" .. mod.Random(3), -- Gemini
 				"102" .. mod.Random(8), -- Larry Jr.
-				"502" .. mod.Random(6), -- Dingle
+				"502" .. mod.Random(5), -- Dingle
 				"514" .. mod.Random(5), -- Gurglings
 				"516" .. mod.Random(5), -- Baby Plum
 				choose("1019", "1029", "1035", "1036"), -- Ragman
@@ -264,7 +266,6 @@ Ascended.DecideBoss = function()
 end
 
 
-
 function mod:HandleConsoleCommand(cmd, params)
 	if cmd == "ascent" or cmd == "ascend" then
 		local player = mod.GetCurrentChar()
@@ -273,7 +274,9 @@ function mod:HandleConsoleCommand(cmd, params)
 
 		print("Set ascension for " .. player .. " to " .. tonumber(params))
 		
-		mod:saveAscensionData()
+		mod:SaveAscensionData()
+
+		mod:InitAscensions()
 	end
 end
 
