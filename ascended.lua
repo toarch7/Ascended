@@ -31,7 +31,7 @@ local AscentionNumberName = {
 	"XX", "XXI", "XXII", "XXIII", "uh"
 }
 
-Ascended.Data = { Ascensions = {}, run = { } }
+Ascended.Data = { Ascensions = {}, Deactivated = {}, run = { } }
 
 Ascended.EffectDescriptions = {}
 

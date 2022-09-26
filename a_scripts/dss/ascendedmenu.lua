@@ -74,6 +74,7 @@ local ascendeddirectory = {
         buttons = {
             {str = "resume game", action = "resume"},
             {str = "settings", dest = "settings"},
+            {str = "ascensions", dest = "ascensiontoggles"},
             
             dssmod.changelogsButton,
 
@@ -94,7 +95,7 @@ local ascendeddirectory = {
 
             {
                 str = "show ascensions",
-                choices = {"while holding map button", "only in start room"},
+                choices = {"when holding map button", "only in start room"},
                 
                 setting = 1,
 
@@ -152,8 +153,92 @@ local ascendeddirectory = {
                 end
             }
         }
+    },
+
+    ascensiontoggles = {
+        title = "ascensions",
+
+        buttons = {
+            {
+                str = "disable all",
+                fsize = 2,
+                
+                func = function(button, item, menuObj)
+                    local t = menuObj.Directory.ascensiontoggles.buttons
+                    
+                    for _, v in pairs(t) do
+                        if v.setting ~= nil then
+                            v.setting = 2
+                        end
+                    end
+                end
+            },
+
+            {
+                str = "enable all",
+                fsize = 2,
+                
+                func = function(button, item, menuObj)
+                    local t = menuObj.Directory.ascensiontoggles.buttons
+                    
+                    for _, v in pairs(t) do
+                        if v.setting ~= nil then
+                            v.setting = 1
+                        end
+                    end
+                end
+            },
+
+            {str = "", nosel = true},
+        }
     }
 }
+
+local function MakeAscensionTogglers()
+    local t = ascendeddirectory.ascensiontoggles
+    
+    for n, v in pairs(mod.AscensionInitializers) do
+        local name = Ascended.AscensionGetName(n) .. " - " .. v[2]
+        
+        local a =
+        {
+            str = name:lower(),
+            choices = { "on", "off" },
+
+            fsize = 1,
+
+            variable = "AT_" .. v[3],
+            
+            setting = 1,
+
+            load = function()
+                return mod.Data.Deactivated[v[3]] or 1
+            end,
+
+            store = function(var)
+                mod.Data.Deactivated[v[3]] = var
+            end
+        }
+
+        table.insert(t.buttons, a)
+        table.insert(t.buttons, {str = "", nosel = true})
+    end
+    
+    local a = {
+        str = "run restart",
+        fsize = 2,
+        
+        tooltip = { strset = { "quick and neat" } },
+
+        func = function()
+            Isaac.ExecuteCommand("restart")
+        end
+    }
+
+    table.insert(t.buttons, a)
+end
+
+MakeAscensionTogglers()
 
 local ascendeddirectorykey = {
     Item = ascendeddirectory.main,

@@ -78,7 +78,7 @@ function mod:IncludeAscensions()
 		include("a_scripts.ascensions." .. v)
 
 		if AscensionInit ~= nil then
-			table.insert(mod.AscensionInitializers, { AscensionInit, AscensionDesc })
+			table.insert(mod.AscensionInitializers, { AscensionInit, AscensionDesc, v })
 		end
 	end
 end
@@ -96,14 +96,18 @@ function mod:InitAscensions()
 		mod.AscensionCallbacks = {}
 		mod.EffectDescriptions = {}
 
+		local deact = Ascended.Data.Deactivated
+
 		for n, v in pairs(mod.AscensionInitializers) do
 			if not Ascended.Freeplay and n > Ascended.Ascension then
 				break
 			end
 
-			v[1]()
-
-			table.insert(mod.EffectDescriptions, v[2])
+			if deact[v[3]] ~= 2 then
+				v[1]()
+				
+				table.insert(mod.EffectDescriptions, v[2])
+			end
 		end
 	else Ascended.SetAscension(player, 0) end
 end

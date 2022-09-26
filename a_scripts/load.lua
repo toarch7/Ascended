@@ -25,6 +25,7 @@ function mod:LoadAscensionData(continued)
 	mod:InitAscensions()
 
 	if mod.Data.run == nil then mod.Data.run = {} end
+	if mod.Data.Deactivated == nil then mod.Data.Deactivated = {} end
 	
 	if not continued then
 		local plrs = game:GetNumPlayers() - 1
