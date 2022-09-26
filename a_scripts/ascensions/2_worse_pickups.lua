@@ -5,8 +5,6 @@ local game = Game()
 local level = game:GetLevel()
 local sfx = SFXManager()
 
-mod.HadAtLeastOneKey = false
-
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider)
 	if collider.Type ~= EntityType.ENTITY_PLAYER then return false end
 
@@ -124,7 +122,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 			if data.Give == nil then
 				data.Give = pick:GetDropRNG():RandomFloat() < 0.5
 
-				if not data.Give and mod.AnyoneHasCollectible(CollectibleType.COLLECTIBLE_GUPPYS_EYE) then
+				if not data.Give and (mod.AnyoneHasCollectible(CollectibleType.COLLECTIBLE_GUPPYS_EYE) or mod.AnyCharacterByName("Cain")) then
 					local c = Color(0.5, 0.5, 0.5, 1, 0, 0, 0)
 					c:SetColorize(1, 1, 1, 0.5)
 
@@ -182,6 +180,10 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function(_)
 end)
 
 AscensionInit = function()
+	mod:AddAscensionCallback("PlayerInit", function()
+		mod.Data.run.HadAtLeastOneKey = false
+	end)
+
 	mod:AddAscensionCallback("PickupInit", function(pick)
 		local rng = pick:GetDropRNG()
 
@@ -195,15 +197,14 @@ AscensionInit = function()
 	mod:AddAscensionCallback("PickupUpdate", function(pick)
 		if pick.SubType == 1 and pick.Price <= 0 and pick:GetData().TransformCheck == nil then
 			if pick.Variant == 30 then
-				if mod.HadAtLeastOneKey then
+				if mod.Data.run.HadAtLeastOneKey then
 					if pick:GetDropRNG():RandomFloat() <= 0.33 then
 						pick:Morph(pick.Type, pick.Variant, 42)
 					end
-				else mod.HadAtLeastOneKey = true end
+				else mod.Data.run.HadAtLeastOneKey = true end
 
 				pick:GetData().TransformCheck = true
 			elseif pick.Variant == 40 then
-				print("eh")
 				if pick:GetDropRNG():RandomFloat() <= 0.15 then
 					pick:Morph(pick.Type, pick.Variant, 42)
 				end

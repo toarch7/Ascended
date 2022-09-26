@@ -9,8 +9,11 @@
 [list]
 [*] [b]I - Discharged active items[/b]
 All newly encountred active items and starting ones as well will be discharged by default.
-[*] [b]II - Less room rewards[/b]
-25% chance to replace your room award with cloud of nothing
+[*] [b]II - Worse pickups[/b]
+Certain consumable drops are replaced with their worse counterpart:
+[b]Counterfeit Penny[/b] (25%) - 50/50 chance to gain you money or do absolutely nothing and disappear on pickup. Useless coins can be detected by Guppy's Eye or when playing as Cain.
+[b]Broken Key[/b] (33%) - You'll need to find another part of a key to get yourself whole one. Note: the first key in the entire run is guaranteed to not be replaced.
+[b]Wet Bomb[/b] (15%) - This kind of bombs are usable only on the next floor.
 [*] [b]III - Higher shop prices[/b]
 All shop items cost 35% more.
 [*] [b]IV - Emptier floors[/b]
@@ -62,7 +65,11 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 [h1]Special thanks[/h1]
 [b]Warhamm2000[/b]: Epic Spookster spritesheet and workshop thumbnail
 [b]fly_6[/b]: Coding help and playtesting
-[b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &amp; playtesting</description>
+[b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &amp; playtesting
+
+[url=https://twitter.com/torcher__]Twitter[/url] (I post nothing interesting there)
+[url=https://github.com/toarch7/Ascended]Source code[/url]
+</description>
     <version>1.2</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>

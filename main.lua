@@ -27,6 +27,18 @@ function mod.AnyoneHasCollectible(collectible)
 	return false
 end
 
+function mod.AnyCharacterByName(name)
+	local n = game:GetNumPlayers()
+
+	for i = 0, n - 1 do
+		if Isaac.GetPlayer(i):GetName() == name then
+			return true
+		end
+	end
+
+	return false
+end
+
 -- Floorgen stuff
 function mod.GetRoomByIdx(index, dim)
 	if dim == nil then dim = -1 end
