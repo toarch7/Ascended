@@ -9,11 +9,25 @@ include("ascended")
 
 mod.rng = RNG()
 
+-- Various functions
+
 function mod.Random(n)
 	return mod.rng:RandomInt(n + 1)
 end
 
--- floorgen stuff
+function mod.AnyoneHasCollectible(collectible)
+	local n = game:GetNumPlayers()
+
+	for i = 0, n - 1 do
+		if Isaac.GetPlayer(i):HasCollectible(collectible) then
+			return true
+		end
+	end
+
+	return false
+end
+
+-- Floorgen stuff
 function mod.GetRoomByIdx(index, dim)
 	if dim == nil then dim = -1 end
 
@@ -36,14 +50,14 @@ function mod.RoomGetNeighbors(index, dim)
 	return count
 end
 
--- ascension loading
+-- Ascension loading
 mod.AscensionCallbacks = { }
 mod.AscensionInitializers = { }
 
-function mod:LoadAscensions()
+function mod:IncludeAscensions()
 	local files = {
 		"1_discharged_actives",
-		"2_less_rewards",
+		"2_worse_pickups",
 		"3_higher_shop_prices",
 		"4_emptier_floors",
 		"5_fullheart_ch3",
@@ -58,18 +72,16 @@ function mod:LoadAscensions()
 		"14_spookster"
 	}
 
-	mod.AscensionCallbacks = { }
-
+	mod.AscensionInitializers = {}
+	
 	for _, v in pairs(files) do
 		include("a_scripts.ascensions." .. v)
-		
+
 		if AscensionInit ~= nil then
 			table.insert(mod.AscensionInitializers, { AscensionInit, AscensionDesc })
 		end
 	end
 end
-
-mod:LoadAscensions()
 
 
 function mod:InitAscensions()
@@ -81,15 +93,11 @@ function mod:InitAscensions()
 	if Ascended.Active then
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
-		if Ascended.Freeplay then
-			local m = #mod.AscensionIncludes
-			Ascended.SetAscension(player, m)
-		end
-
+		mod.AscensionCallbacks = {}
 		mod.EffectDescriptions = {}
 
 		for n, v in pairs(mod.AscensionInitializers) do
-			if n > Ascended.Ascension then
+			if not Ascended.Freeplay and n > Ascended.Ascension then
 				break
 			end
 
@@ -101,9 +109,15 @@ function mod:InitAscensions()
 end
 
 -- Callbacks
-function mod:AddAscensionCallback(name, func)
+function mod:AddAscensionCallback(name, func, priority)
 	if mod.AscensionCallbacks[name] == nil then
 		mod.AscensionCallbacks[name] = {}
+	end
+
+	if priority then
+		table.insert(mod.AscensionCallbacks[name], 1, func)
+
+		return nil
 	end
 
 	table.insert(mod.AscensionCallbacks[name], func)
@@ -194,3 +208,5 @@ include("a_scripts.load")
 include("a_scripts.ui")
 include("a_scripts.dss.ascendedmenu")
 include("a_scripts.test")
+
+mod:IncludeAscensions()

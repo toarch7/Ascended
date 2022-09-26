@@ -7,9 +7,7 @@ local DSSModName = "Ascended"
 local DSSCoreVersion = 5
 local MenuProvider = {}
 
-function MenuProvider.SaveSaveData()
-    mod.StoreSaveData()
-end
+MenuProvider.SaveSaveData = mod.SaveAscensionData
 
 function MenuProvider.GetPaletteSetting()
     return mod.GetSaveData().MenuPalette
@@ -143,9 +141,12 @@ local ascendeddirectory = {
                 end,
 
                 store = function(var)
-                    mod.GetSaveData().freeplay = var
+                    local p = mod.GetSaveData().freeplay
 
-                    if not mod.UI.leftstartroom then
+                    mod.GetSaveData().freeplay = var
+                    
+                    if p ~= var and not mod.UI.leftstartroom then
+                        Ascended.Freeplay = var
                         Isaac.ExecuteCommand("restart")
                     end
                 end

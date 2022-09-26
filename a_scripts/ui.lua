@@ -32,11 +32,17 @@ function mod:OnRender()
 		local current = mod.Ascension
 		local effects = Ascended.EffectDescriptions
 		local f = mod.font
+
+		local c = "Ascension " .. Ascended.AscensionGetName(current)
+
+		if Ascended.Freeplay then
+			c = "Ascensions"
+		end
 		
-		f:DrawString("Ascension " .. Ascended.AscensionGetName(current), textoffset, 30, KColor(1, 1, 1, mod.UI.alpha), 0, true)
+		f:DrawString(c, textoffset, 30, KColor(1, 1, 1, mod.UI.alpha), 0, true)
 		
 		for i, n in pairs(effects) do
-			if i > current then
+			if not Ascended.Freeplay and i > current then
 				break
 			end
 			

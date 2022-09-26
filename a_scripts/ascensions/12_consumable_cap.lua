@@ -16,7 +16,13 @@ AscensionInit = function()
             local value = 1
 
             if pick.Variant == 20 then
-                value = pick:GetCoinValue()
+                if pick.SubType == 42 then
+                    value = 0
+
+                    if pick:GetData().Give then
+                        value = 1
+                    end
+                else value = pick:GetCoinValue() end
 
                 local cap = Properties.CoinCap
 
@@ -29,7 +35,7 @@ AscensionInit = function()
                     cap = 100
                 end
 
-                if player:GetNumCoins() + value > cap then
+                if player:GetNumCoins() + math.max(1, value) > cap then
                     if pick.SubType == 5 then
                         Isaac.Spawn(pick.Type, pick.Variant, 1, player.Position, player.Velocity, pick.Spawner)
                         player:AddCoins(-1)
@@ -91,5 +97,5 @@ AscensionInit = function()
                 end
             end
         end
-    end)
+    end, true)
 end

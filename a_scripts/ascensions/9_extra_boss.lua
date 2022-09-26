@@ -95,8 +95,6 @@ function mod:TryGenerateSecondBoss(dim)
 		Isaac.ExecuteCommand("reseed")
 	end
 
-	print(mod.SecondBossRoom)
-	
 	level:UpdateVisibility()
 
 	mod.InGenerationLoop = false

@@ -4,19 +4,7 @@ local json = require("json")
 local game = Game()
 
 function mod.GetSaveData()
-    if not mod.menusavedata then
-        if Isaac.HasModData(mod) then
-            mod.menusavedata = json.decode(Isaac.LoadModData(mod))
-        else
-            mod.menusavedata = {}
-        end
-    end
-
-    return mod.menusavedata
-end
-
-function mod.StoreSaveData()
-    Isaac.SaveModData(mod, json.encode(mod.menusavedata))
+    return Ascended.Data
 end
 
 function mod:SaveAscensionData()
@@ -39,6 +27,7 @@ function mod:LoadAscensionData(continued)
 	end
 
 	mod.RoomsCleared = Ascended.Data.RoomsCleared
+	mod.Freeplay = Ascended.Data.freeplay
 
 	mod:InitAscensions()
 
@@ -72,5 +61,6 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.PostGameOver)
 
 -- init once again upon a restart
 if Isaac.GetPlayer(0) ~= nil then
+	mod:IncludeAscensions()
 	mod:LoadAscensionData(true)
 end
