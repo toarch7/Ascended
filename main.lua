@@ -147,7 +147,6 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, function (_, player)
 	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
 	
 	mod.UI.leftstartroom = false
-	mod.SecondBossRoom = -1
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function(_, player)

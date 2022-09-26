@@ -9,12 +9,6 @@ end
 
 function mod:SaveAscensionData()
 	if Ascended.Active then
-		if mod.RoomsCleared == nil then
-			mod.RoomsCleared = 0
-		end
-
-		Ascended.Data.RoomsCleared = mod.RoomsCleared
-
 		mod:SaveData(json.encode(Ascended.Data))
 	end
 end
@@ -26,17 +20,20 @@ function mod:LoadAscensionData(continued)
 		Ascended.Data = json.decode(mod:LoadData())
 	end
 
-	mod.RoomsCleared = Ascended.Data.RoomsCleared
 	mod.Freeplay = Ascended.Data.freeplay
 
 	mod:InitAscensions()
 
+	if mod.Data.run == nil then mod.Data.run = {} end
+	
 	if not continued then
 		local plrs = game:GetNumPlayers() - 1
 
 		for i = 0, plrs do
 			mod:FireAscensionCallback("PlayerInit", Isaac.GetPlayer(i))
 		end
+		
+		mod.Data.run = {}
 	end
 end
 
@@ -46,7 +43,7 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadAscensionData)
 
 function mod:PostGameOver(death)
 	-- ascension progress
-	if not death and Ascended.Active and not Ascended.Freeplay then
+	if not death and Ascended.Active and not Ascended.Freeplay and game:GetVictoryLap() <= 0 then
 		if game:GetLevel():GetStage() ~= 10 then
 			local player = mod.GetCurrentChar()
 			local asc = math.min(#Ascended.EffectDescriptions, Ascended.Ascension + 1)

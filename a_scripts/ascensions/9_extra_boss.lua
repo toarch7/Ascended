@@ -5,7 +5,6 @@ local game = Game()
 local level = game:GetLevel()
 local sfx = SFXManager()
 
-mod.SecondBossRoom = -1
 mod.SecondBossRoomLayout = "1010"
 mod.InGenerationLoop = false
 
@@ -15,6 +14,8 @@ function mod:GenerateExtraBoss(dim)
 	local hasmirrorworld = (level:GetStage() == 2 and level:GetStageType() >= 3)
 	local hasrailplates = (level:GetStage() == 4 and level:GetStageType() >= 3)
 	local hasmarkedskull = (level:GetStage() == 6 and level:GetStageType() <= 2)
+
+	mod.Data.run.SecondBossRoom = -1
 
 	for i = 0, 168, 1 do
 		local bossroom = mod.GetRoomByIdx(i, dim)
@@ -86,7 +87,7 @@ function mod:TryGenerateSecondBoss(dim)
 		local res = mod:GenerateExtraBoss(dim)
 
 		if res ~= -1 then
-			mod.SecondBossRoom = res
+			mod.Data.run.SecondBossRoom = res
 			break
 		end
 		
@@ -102,7 +103,11 @@ end
 
 AscensionInit = function()
 	mod:AddAscensionCallback("PreRoomAward", function()
-		if level:GetCurrentRoomIndex() == mod.SecondBossRoom then
+		if mod.Data.run.SecondBossRoom == nil then
+			mod.Data.run.SecondBossRoom = -1
+		end
+		
+		if level:GetCurrentRoomIndex() == mod.Data.run.SecondBossRoom then
 			local room = game:GetRoom()
 			local any = false
 

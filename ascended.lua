@@ -31,15 +31,13 @@ local AscentionNumberName = {
 	"XX", "XXI", "XXII", "XXIII", "uh"
 }
 
-Ascended.Data = { Ascensions = {} }
+Ascended.Data = { Ascensions = {}, run = { } }
 
 Ascended.EffectDescriptions = {}
 
 Ascended.Active = true
 Ascended.Freeplay = false
 
-Ascended.RoomsCleared = 0
-Ascended.SecondBossRoom = -1
 Ascended.SecondBossRoomLayout = "1010"
 
 Ascended.AscensionGetName = function(num)

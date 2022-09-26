@@ -6,4 +6,12 @@
 	<entity anm2path="counterfeit_penny.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Counterfeit Penny" numGridCollisionPoints="24" shadowSize="14" stageHP="0" variant="20" subtype="42">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
+	
+	<entity anm2path="broken_key1.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Broken Key" numGridCollisionPoints="24" shadowSize="14" stageHP="0" variant="30" subtype="42">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
+	
+	<entity anm2path="wet_bomb.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Wet Bomb" numGridCollisionPoints="24" shadowSize="14" stageHP="0" variant="40" subtype="42">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
 </>

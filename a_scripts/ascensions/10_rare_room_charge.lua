@@ -2,16 +2,16 @@ AscensionDesc = "Room may not gain you charge"
 
 local mod = Ascended
 
-mod.RoomsCleared = 0
-
 AscensionInit = function()
 	mod:AddAscensionCallback("PostRoomAward", function()
 		if mod.postSpawnCleanAward then
-			if mod.roomsCleared == nil then
-				mod.roomsCleared = 0
+			local c = mod.Data.run.roomsCleared
+
+			if c == nil then
+				c = 0
 			end
 			
-			if mod.roomsCleared % 3 == 0 then
+			if mod.Data.roomsCleared % 3 == 0 then
 				local slots = { ActiveSlot.SLOT_PRIMARY, ActiveSlot.SLOT_SECONDARY, ActiveSlot.SLOT_POCKET, ActiveSlot.SLOT_POCKET2 }
 				
 				for _, v in pairs(slots) do
@@ -29,6 +29,8 @@ AscensionInit = function()
 			end
 
 			mod.postSpawnCleanAward = false
+
+			mod.Data.run.roomsCleared = c + 1
 		end
 	end)
 end

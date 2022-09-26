@@ -18,6 +18,9 @@ mod.UI.Icon:Play("Icon", true)
 mod.font = Font()
 mod.font:Load("font/luaminioutlined.fnt")
 
+mod.font2 = Font()
+mod.font2:Load("font/pftempestasevencondensed.fnt")
+
 local function Lerp(val1, val2, percent)
 	return val1 + (val2 - val1) * percent
 end
@@ -75,16 +78,25 @@ function mod:OnRender()
 
 	mod.UI.textoffset = textoffset
 	mod.UI.texttime = texttime
+
+	local wets = mod.Data.run.WetBombs
+
+	if wets ~= nil and wets > 0 then
+		local offsetraw = Options.HUDOffset * 10
+		local offset = Vector(32, 45) + Vector(offsetraw * 2, offsetraw * 1.2)
+		mod.font2:DrawString(tostring(wets), offset.X, offset.Y, KColor(0.7, 0.8, 1, 1), 10, true)
+	end
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.OnRender)
 
 function mod:DrawAscensionIcon()
+	local f = mod.font
+	
 	if mod:GetSaveData().displayIcon ~= 2 and mod.Active then
 		local offsetraw = Options.HUDOffset
 		local offset = offsetraw * 24
 		
-		local f = mod.font
 		
 		local p = Vector(5 + offset, 75 + offset - offsetraw * 11)
 		
