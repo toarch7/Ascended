@@ -138,7 +138,7 @@ local ascendeddirectory = {
                 variable = "ascendedFreeplayOption",
                 
                 load = function()
-                    return mod.GetSaveData().freeplay or 1
+                    return mod.GetSaveData().freeplay or 2
                 end,
 
                 store = function(var)
