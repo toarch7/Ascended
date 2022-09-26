@@ -37,8 +37,8 @@ AscensionInit = function()
 
 			local roll = false
 			
-			if mod.PedestalData[seed] == nil then roll = true print(seed) mod.PedestalData[seed] = true end
-			if mod.PedestalData[p.SubType] == nil then roll = true print(p.SubType) mod.PedestalData[p.SubType] = true end
+			if mod.PedestalData[seed] == nil then roll = true mod.PedestalData[seed] = true end
+			if mod.PedestalData[p.SubType] == nil then roll = true mod.PedestalData[p.SubType] = true end
 			
 			if roll then
 				p.Charge = 0
