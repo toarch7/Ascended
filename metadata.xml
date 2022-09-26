@@ -13,11 +13,11 @@ All newly encountred active items and starting ones as well will be discharged b
 Certain consumable drops are replaced with their worse counterpart:
 [b]Counterfeit Penny[/b] (25%) - 50/50 chance to gain you money or do absolutely nothing and disappear on pickup. Useless coins can be detected by Guppy's Eye or when playing as Cain.
 [b]Broken Key[/b] (33%) - You'll need to find another part of a key to get yourself whole one. Note: the first key in the entire run is guaranteed to not be replaced.
-[b]Wet Bomb[/b] (15%) - This kind of bombs are usable only on the next floor.
+[b]Wet Bomb[/b] (15%) - This kind of bombs is usable only on the next floor.
 [*] [b]III - Higher shop prices[/b]
 All shop items cost 35% more.
 [*] [b]IV - Emptier floors[/b]
-25% chance to replace any non-vital special room with the empty one
+25% chance to replace any non-vital special room with the empty one.
 [*] [b]V - Full heart damage since ch. 3[/b]
 Speaks for itself
 [*] [b]VI - Weaker soul hearts[/b]
@@ -28,16 +28,16 @@ All characters (except T. Keeper) start with three broken hearts (or one in case
 Disables healing for picking up items in any shape or form.
 [*] [b]IX - Extra Boss Room each floor[/b]
 Every floor will now have additional boss fight just like with the Curse of Labyrinth. Though, beating this extra boss won't award you with an item.
-This should work for modded bosses too, but I haven't tested it that much,
+This should work for modded bosses too, but I haven't tested it that much.
 [*] [b]X - Room may not gain you charge[/b]
-Each third room doesn't charge your active item(s)
+Each third room doesn't charge your active item(s).
 [*] [b]XI - Worse beggars and blood donation[/b]
 Almost every beggar now has worse payouts.
-Blood donation machine though will work just like if you were playing as the Keeper
+Blood donation machine though will work just like if you were playing as the Keeper.
 [*][b]XII - Less room for consumables[/b]
-Speaks for itself, but I'd like to note that this one is worked quite well
+Speaks for itself, but I'd like to note that this one is worked quite well.
 [*][b]XIII - Less invulnerability[/b]
-Isaac will now take damage twice as frequently
+Isaac will now take damage twice as frequently.
 [*][b]XIV - Chased by Death[/b]
 A Spelunky-styled ghost will now appear on each floor after a certain time threshold.
 [/list]
@@ -48,9 +48,10 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 [*] All effects and any progress are disabled in: Normal mode, Greed/Greedier mode, Challenges.
 [*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff.
 [*] You can enable freeplay mode in DSS options, which makes progression optional part.
+[*] Undesired ascensions can be turned off in DSS options menu.
 [*] It's possible to change Ascension number thru `ascend x` console command, where the `x` is a needed ascension. 
-[*] Works in multiplayer (both local and through networktest)
-[*] Should work fine for most modded characters.
+[*] Works in multiplayer (both local and through networktest).
+[*] Should work fine for most modded characters (unless you're constantly installing or removing ones).
 [*] This gamemode does its best mostly during Eden streaks.
 [/list]
 

@@ -42,21 +42,16 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 
 				if type == nil then type = 1 + pick:GetDropRNG():RandomInt(2) end
 				
-				if type == 1 then
-					if data.KeyPieces1 == nil then
-						data.KeyPieces1 = 0
-					end
+				if data.KeyPieces1 == nil then data.KeyPieces1 = 0 end
+				if data.KeyPieces2 == nil then data.KeyPieces2 = 0 end
 
+				if type == 1 then
 					if data.KeyPieces1 > 5 then
 						return true
 					end
 
 					data.KeyPieces1 = data.KeyPieces1 + 1
 				elseif type == 2 then
-					if data.KeyPieces2 == nil then
-						data.KeyPieces2 = 0
-					end
-
 					if data.KeyPieces2 > 5 then
 						return true
 					end
@@ -69,7 +64,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 					data.KeyPieces2 = data.KeyPieces2 - 1
 
 					local k = Isaac.Spawn(5, 30, 1, pick.Position, collider.Velocity, pick.Spawner)
-					k:GetData().TransformCheck = true
+					mod.Data.run.SeenPickups[k.InitSeed] = true
 				end
 				
 				sfx:Play(SoundEffect.SOUND_FETUS_FEET, 0.5, 2, false, 1.5)
@@ -135,20 +130,20 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 			end
 		elseif pick.Variant == 30 then
 			local spr = pick:GetSprite()
-			local data = pick:GetData()
+			local data = mod.Data.run.SeenPickups[pick.InitSeed]
 
 			if spr:IsEventTriggered("DropSound") then
 				sfx:Play(SoundEffect.SOUND_KEY_DROP0)
 			end
 
-			if data.PieceType == nil then
-				data.PieceType = 1 + pick:GetDropRNG():RandomInt(2)
+			if data == 0 or data == nil then
+				data = 1 + pick:GetDropRNG():RandomInt(2)
 
-				print(data.PieceType)
-
-				spr:Load("gfx/broken_key" .. data.PieceType .. ".anm2", true)
+				spr:Load("gfx/broken_key" .. data .. ".anm2", true)
 
 				spr:Play("Appear")
+
+				mod.Data.run.SeenPickups[pick.InitSeed] = data
 			end
 
 			if spr:IsFinished("Collect") then
@@ -182,6 +177,7 @@ end)
 AscensionInit = function()
 	mod:AddAscensionCallback("PlayerInit", function()
 		mod.Data.run.HadAtLeastOneKey = false
+		mod.Data.run.SeenPickups = {}
 	end)
 
 	mod:AddAscensionCallback("PickupInit", function(pick)
@@ -191,25 +187,41 @@ AscensionInit = function()
 			if rng:RandomFloat() <= 0.25 then
 				pick:Morph(pick.Type, pick.Variant, 42)
 			end
+		elseif pick.Variant == 30 and pick.SubType == 42 then
+			local data = mod.Data.run.SeenPickups[pick.InitSeed]
+
+			if data and data ~= 0 then
+				local spr = pick:GetSprite()
+				spr:Load("gfx/broken_key" .. data .. ".anm2", true)
+				spr:Play("Appear")
+			end
 		end
 	end)
 
 	mod:AddAscensionCallback("PickupUpdate", function(pick)
-		if pick.SubType == 1 and pick.Price <= 0 and pick:GetData().TransformCheck == nil then
+		local s = mod.Data.run.SeenPickups
+
+		if s == nil then
+			mod.Data.run.SeenPickups = {}
+		end
+
+		local ind = pick.InitSeed
+
+		if s and pick.SubType == 1 and pick.Price <= 0 and s[ind] == nil then
 			if pick.Variant == 30 then
-				if mod.Data.run.HadAtLeastOneKey then
+				if not mod.Data.run.HadAtLeastOneKey then
 					if pick:GetDropRNG():RandomFloat() <= 0.33 then
 						pick:Morph(pick.Type, pick.Variant, 42)
 					end
 				else mod.Data.run.HadAtLeastOneKey = true end
 
-				pick:GetData().TransformCheck = true
+				s[ind] = 0
 			elseif pick.Variant == 40 then
 				if pick:GetDropRNG():RandomFloat() <= 0.15 then
 					pick:Morph(pick.Type, pick.Variant, 42)
 				end
 
-				pick:GetData().TransformCheck = true
+				s[ind] = true
 			end
 		end
 	end)

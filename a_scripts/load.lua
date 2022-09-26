@@ -8,6 +8,8 @@ function mod.GetSaveData()
 end
 
 function mod:SaveAscensionData()
+	mod.Data.run.SeenPickups = {}
+	
 	if Ascended.Active then
 		mod:SaveData(json.encode(Ascended.Data))
 	end
