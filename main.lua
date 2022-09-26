@@ -103,12 +103,17 @@ function mod:InitAscensions()
 	Ascended.Freeplay = mod.GetSaveData().freeplay == 1
 
 	if Ascended.Active then
+		print("setting ascension of " .. player .. " to " .. Ascended.GetCharacterAscension(player))
 		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
 		mod.AscensionCallbacks = {}
 		mod.EffectDescriptions = {}
 
 		local deact = Ascended.Data.Deactivated
+
+		if deact == nil then
+			deact = {}
+		end
 
 		for n, v in pairs(mod.AscensionInitializers) do
 			if not Ascended.Freeplay and n > Ascended.Ascension then

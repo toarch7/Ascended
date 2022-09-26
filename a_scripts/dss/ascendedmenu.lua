@@ -153,9 +153,11 @@ local ascendeddirectory = {
                 end
             }
         }
-    },
+    }
+}
 
-    ascensiontoggles = {
+local function MakeAscensionTogglers()
+    local t = {
         title = "ascensions",
 
         buttons = {
@@ -192,10 +194,8 @@ local ascendeddirectory = {
             {str = "", nosel = true},
         }
     }
-}
 
-local function MakeAscensionTogglers()
-    local t = ascendeddirectory.ascensiontoggles
+    ascendeddirectory.ascensiontoggles = t
     
     for n, v in pairs(mod.AscensionInitializers) do
         local name = Ascended.AscensionGetName(n) .. " - " .. v[2]
@@ -239,6 +239,10 @@ local function MakeAscensionTogglers()
 end
 
 MakeAscensionTogglers()
+
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, function()
+    MakeAscensionTogglers()
+end)
 
 local ascendeddirectorykey = {
     Item = ascendeddirectory.main,
