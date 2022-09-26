@@ -84,13 +84,15 @@ AscensionInit = function()
                     return false
                 end
             elseif pick.Variant == 40 then
+                local count = player:GetNumBombs() + (mod.Data.run.WetBombs or 0)
+                
                 value = 1
 
                 if pick.SubType == 2 then
                     value = 2
                 end
 
-                if player:GetNumBombs() + value > Properties.BombCap then
+                if count + value > Properties.BombCap then
                     if pick.SubType == 4 then return nil end
                     
                     return false

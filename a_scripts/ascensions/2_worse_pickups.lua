@@ -193,17 +193,20 @@ AscensionInit = function()
 	end)
 
 	mod:AddAscensionCallback("PickupUpdate", function(pick)
-		if pick.SubType == 1 and pick:GetData().TransformCheck == nil then
+		if pick.SubType == 1 and pick.Price <= 0 and pick:GetData().TransformCheck == nil then
 			if pick.Variant == 30 then
 				if mod.HadAtLeastOneKey then
-					if pick:GetDropRNG():RandomFloat() <= 0.25 then
+					if pick:GetDropRNG():RandomFloat() <= 0.33 then
 						pick:Morph(pick.Type, pick.Variant, 42)
 					end
 				else mod.HadAtLeastOneKey = true end
 
 				pick:GetData().TransformCheck = true
 			elseif pick.Variant == 40 then
-				
+				print("eh")
+				if pick:GetDropRNG():RandomFloat() <= 0.15 then
+					pick:Morph(pick.Type, pick.Variant, 42)
+				end
 
 				pick:GetData().TransformCheck = true
 			end
