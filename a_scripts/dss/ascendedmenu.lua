@@ -151,7 +151,9 @@ local ascendeddirectory = {
                         Isaac.ExecuteCommand("restart")
                     end
                 end
-            }
+            },
+
+            ascensiontoggles = {}
         }
     }
 }
@@ -170,6 +172,8 @@ local function MakeAscensionTogglers()
                     
                     for _, v in pairs(t) do
                         if v.setting ~= nil then
+                            mod.Data.Deactivated[v.ascensionid] = 2
+
                             v.setting = 2
                         end
                     end
@@ -185,6 +189,8 @@ local function MakeAscensionTogglers()
                     
                     for _, v in pairs(t) do
                         if v.setting ~= nil then
+                            mod.Data.Deactivated[v.ascensionid] = 1
+
                             v.setting = 1
                         end
                     end
@@ -210,6 +216,8 @@ local function MakeAscensionTogglers()
             variable = "AT_" .. v[3],
             
             setting = 1,
+
+            ascensionid = v[3],
 
             load = function()
                 return mod.Data.Deactivated[v[3]] or 1

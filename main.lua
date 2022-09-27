@@ -102,12 +102,11 @@ function mod:InitAscensions()
 	Ascended.Active = not game:IsGreedMode() and game.Difficulty == Difficulty.DIFFICULTY_HARD and game.Challenge == 0
 	Ascended.Freeplay = mod.GetSaveData().freeplay == 1
 
-	if Ascended.Active then
-		print("setting ascension of " .. player .. " to " .. Ascended.GetCharacterAscension(player))
-		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
+	mod.AscensionCallbacks = {}
+	mod.EffectDescriptions = {}
 
-		mod.AscensionCallbacks = {}
-		mod.EffectDescriptions = {}
+	if Ascended.Active then
+		Ascended.SetAscension(player, Ascended.GetCharacterAscension(player))
 
 		local deact = Ascended.Data.Deactivated
 

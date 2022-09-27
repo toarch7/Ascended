@@ -22,7 +22,7 @@ function mod:LoadAscensionData(continued)
 		Ascended.Data = json.decode(mod:LoadData())
 	end
 
-	mod.Freeplay = Ascended.Data.freeplay
+	mod.Freeplay = Ascended.Data.freeplay == 1
 
 	mod:InitAscensions()
 
