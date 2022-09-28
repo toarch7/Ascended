@@ -31,7 +31,19 @@ local AscentionNumberName = {
 	"XX", "XXI", "XXII", "XXIII", "uh"
 }
 
-Ascended.Data = { Ascensions = {}, Deactivated = {}, run = { } }
+Ascended.Data = {
+	run = {
+		WetBombs = 0,
+		KeyPieces1 = 0,
+		KeyPieces2 = 0
+	},
+
+	Ascensions = {},
+	Deactivated = {}
+}
+
+Ascended.SeenPickups = {}
+Ascended.PedestalData = {}
 
 Ascended.EffectDescriptions = {}
 

@@ -209,6 +209,10 @@ mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, function(_, ent, amount, flags,
 end, EntityType.ENTITY_PLAYER)
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function()
+	if game.TimeCounter == 0 then
+		mod:InitAscensions()
+	end
+	
 	mod:FireAscensionCallback("NewLevel")
 end)
 

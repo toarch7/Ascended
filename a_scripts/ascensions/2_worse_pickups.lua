@@ -6,7 +6,9 @@ local level = game:GetLevel()
 local sfx = SFXManager()
 
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider)
-	if collider.Type ~= EntityType.ENTITY_PLAYER then return false end
+	if collider.Type ~= EntityType.ENTITY_PLAYER and collider:ToFamiliar() == nil then
+		return nil
+	end
 
 	if pick.SubType == 42 then
 		if pick.Variant == 20 then -- counterfeit pennies
@@ -14,7 +16,11 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 
 			if spr:GetAnimation() == "Idle" or spr:WasEventTriggered("DropSound") then
 				if pick:GetData().Give then
-					collider:ToPlayer():AddCoins(1)
+					local c = collider:ToPlayer()
+					
+					if c == nil then c = collider:ToFamiliar() end
+
+					c:AddCoins(1)
 
 					sfx:Play(SoundEffect.SOUND_PENNYPICKUP, 1.0, 2, false, 1.2)
 					spr:Play("Collect")
@@ -40,31 +46,37 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 				local data = mod.Data.run
 				local type = pick:GetData().PieceType
 
-				if type == nil then type = 1 + pick:GetDropRNG():RandomInt(2) end
-				
-				if data.KeyPieces1 == nil then data.KeyPieces1 = 0 end
-				if data.KeyPieces2 == nil then data.KeyPieces2 = 0 end
+				if collider:ToFamiliar() ~= nil then
+					if mod.rng():RandomFloat() <= 0.5 then
+						collider:ToFamiliar():AddKeys(1)
+					end
+				else
+					if type == nil then type = 1 + pick:GetDropRNG():RandomInt(2) end
+					
+					if data.KeyPieces1 == nil then data.KeyPieces1 = 0 end
+					if data.KeyPieces2 == nil then data.KeyPieces2 = 0 end
+					
+					if type == 1 then
+						if data.KeyPieces1 > 5 then
+							return true
+						end
 
-				if type == 1 then
-					if data.KeyPieces1 > 5 then
-						return true
+						data.KeyPieces1 = data.KeyPieces1 + 1
+					elseif type == 2 then
+						if data.KeyPieces2 > 5 then
+							return true
+						end
+
+						data.KeyPieces2 = data.KeyPieces2 + 1
 					end
 
-					data.KeyPieces1 = data.KeyPieces1 + 1
-				elseif type == 2 then
-					if data.KeyPieces2 > 5 then
-						return true
+					if data.KeyPieces1 > 0 and data.KeyPieces2 > 0 then
+						data.KeyPieces1 = data.KeyPieces1 - 1
+						data.KeyPieces2 = data.KeyPieces2 - 1
+
+						local k = Isaac.Spawn(5, 30, 1, pick.Position, collider.Velocity, pick.Spawner)
+						mod.SeenPickups[k.InitSeed] = true
 					end
-
-					data.KeyPieces2 = data.KeyPieces2 + 1
-				end
-
-				if data.KeyPieces1 > 0 and data.KeyPieces2 > 0 then
-					data.KeyPieces1 = data.KeyPieces1 - 1
-					data.KeyPieces2 = data.KeyPieces2 - 1
-
-					local k = Isaac.Spawn(5, 30, 1, pick.Position, collider.Velocity, pick.Spawner)
-					mod.Data.run.SeenPickups[k.InitSeed] = true
 				end
 				
 				sfx:Play(SoundEffect.SOUND_FETUS_FEET, 0.5, 2, false, 1.5)
@@ -130,7 +142,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 			end
 		elseif pick.Variant == 30 then
 			local spr = pick:GetSprite()
-			local data = mod.Data.run.SeenPickups[pick.InitSeed]
+			local data = mod.SeenPickups[pick.InitSeed]
 
 			if spr:IsEventTriggered("DropSound") then
 				sfx:Play(SoundEffect.SOUND_KEY_DROP0)
@@ -143,7 +155,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 
 				spr:Play("Appear")
 
-				mod.Data.run.SeenPickups[pick.InitSeed] = data
+				mod.SeenPickups[pick.InitSeed] = data
 			end
 
 			if spr:IsFinished("Collect") then
@@ -165,6 +177,11 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function(_)
+	if game.TimeCounter <= 0 then
+		mod.Data.run.HadAtLeastOneKey = false
+		mod.SeenPickups = {}
+	end
+
 	local wets = mod.Data.run.WetBombs
 
 	if wets == nil then return end
@@ -175,11 +192,6 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function(_)
 end)
 
 AscensionInit = function()
-	mod:AddAscensionCallback("PlayerInit", function()
-		mod.Data.run.HadAtLeastOneKey = false
-		mod.Data.run.SeenPickups = {}
-	end)
-
 	mod:AddAscensionCallback("PickupInit", function(pick)
 		local rng = pick:GetDropRNG()
 
@@ -188,7 +200,7 @@ AscensionInit = function()
 				pick:Morph(pick.Type, pick.Variant, 42)
 			end
 		elseif pick.Variant == 30 and pick.SubType == 42 then
-			local data = mod.Data.run.SeenPickups[pick.InitSeed]
+			local data = mod.SeenPickups[pick.InitSeed]
 
 			if data and data ~= 0 then
 				local spr = pick:GetSprite()
@@ -199,12 +211,10 @@ AscensionInit = function()
 	end)
 
 	mod:AddAscensionCallback("PickupUpdate", function(pick)
-		local s = mod.Data.run.SeenPickups
+		local s = mod.SeenPickups
 
-		if s == nil then
-			mod.Data.run.SeenPickups = {}
-		end
-
+		if s == nil then mod.SeenPickups = {} end
+		
 		local ind = pick.InitSeed
 
 		if s and pick.SubType == 1 and pick.Price <= 0 and s[ind] == nil then

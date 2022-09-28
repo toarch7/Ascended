@@ -32,13 +32,21 @@ AscensionInit = function()
 	end)
 
 	mod:AddAscensionCallback("PrePickupCollision", function(p)
+		if mod.PedestalData == nil then
+			mod.PedestalData = {}
+		end
+
+		local pd = mod.PedestalData
+
+		if pd == nil then pd = {} end
+
 		if p.Variant == 100 or p.Variant == 150 then
 			local seed = p:GetDropRNG():GetSeed()
 
 			local roll = false
 			
-			if mod.PedestalData[seed] == nil then roll = true mod.PedestalData[seed] = true end
-			if mod.PedestalData[p.SubType] == nil then roll = true mod.PedestalData[p.SubType] = true end
+			if pd[seed] == nil then roll = true pd[seed] = true end
+			if pd[p.SubType] == nil then roll = true pd[p.SubType] = true end
 			
 			if roll then
 				p.Charge = 0
