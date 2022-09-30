@@ -44,7 +44,11 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 
 			if spr:GetAnimation() == "Idle" or spr:WasEventTriggered("DropSound") then
 				local data = mod.Data.run
-				local type = pick:GetData().PieceType
+				local type = 1
+
+				if pick:GetSprite():GetFilename() == "gfx/broken_key2.anm2" then
+					type = 2
+				end
 
 				if collider:ToFamiliar() ~= nil then
 					if mod.rng():RandomFloat() <= 0.5 then
@@ -149,13 +153,12 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function(_, pick)
 			end
 
 			if data == 0 or data == nil then
-				data = 1 + pick:GetDropRNG():RandomInt(2)
+				local s = 1 + pick:GetDropRNG():RandomInt(2)
 
-				spr:Load("gfx/broken_key" .. data .. ".anm2", true)
-
+				spr:Load("gfx/broken_key" .. s .. ".anm2", true)
 				spr:Play("Appear")
 
-				mod.SeenPickups[pick.InitSeed] = data
+				mod.SeenPickups[pick.InitSeed] = s
 			end
 
 			if spr:IsFinished("Collect") then
