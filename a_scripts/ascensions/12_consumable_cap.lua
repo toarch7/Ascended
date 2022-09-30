@@ -22,6 +22,8 @@ AscensionInit = function()
                     if pick:GetData().Give then
                         value = 1
                     end
+                elseif pick.SubType > 7 then
+                    value = 1
                 else value = pick:GetCoinValue() end
 
                 local cap = Properties.CoinCap
@@ -68,9 +70,15 @@ AscensionInit = function()
             elseif pick.Variant == 30 then
                 value = 1
 
-                if pick.SubType == 3 then
+                if pick.SubType == 3 or pick.SubType == 179 then -- double & ff spicy double
                     value = 2
+                elseif pick.SubType == 180 then -- ff super spicy key
+                    value = 3
                 end
+
+                -- print(value, pick.SubType)
+                -- apparently fiendfolio keys don't trigger this callback?
+                -- leaving compat for the sake of anything
 
                 if player:GetNumKeys() + value > Properties.KeyCap then
                     if pick.SubType == 2 then return nil end
