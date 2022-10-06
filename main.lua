@@ -87,6 +87,8 @@ function mod:IncludeAscensions()
 	mod.AscensionInitializers = {}
 	
 	for _, v in pairs(files) do
+		AscensionInit = nil
+
 		include("a_scripts.ascensions." .. v)
 
 		if AscensionInit ~= nil then
@@ -114,13 +116,17 @@ function mod:InitAscensions()
 			deact = {}
 		end
 
-		for n, v in pairs(mod.AscensionInitializers) do
+		local n = 0
+
+		for _, v in pairs(mod.AscensionInitializers) do
 			if not Ascended.Freeplay and n > Ascended.Ascension then
 				break
 			end
 
 			if deact[v[3]] ~= 2 then
 				v[1]()
+
+				n = n + 1
 				
 				table.insert(mod.EffectDescriptions, v[2])
 			end
