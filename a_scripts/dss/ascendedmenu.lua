@@ -163,7 +163,7 @@ local function MakeAscensionTogglers()
         title = "ascensions",
 
         buttons = {
-            {
+            --[[{
                 str = "disable all",
                 fsize = 2,
                 
@@ -197,7 +197,7 @@ local function MakeAscensionTogglers()
                 end
             },
 
-            {str = "", nosel = true},
+            {str = "", nosel = true},]]--
         }
     }
 
@@ -217,6 +217,8 @@ local function MakeAscensionTogglers()
             
             setting = 1,
 
+            tooltip = { strset = { "reset the run", "to apply", "changes" } },
+            
             ascensionid = v[3],
 
             load = function()
@@ -231,19 +233,6 @@ local function MakeAscensionTogglers()
         table.insert(t.buttons, a)
         table.insert(t.buttons, {str = "", nosel = true})
     end
-    
-    local a = {
-        str = "run restart",
-        fsize = 2,
-        
-        tooltip = { strset = { "quick and neat" } },
-
-        func = function()
-            Isaac.ExecuteCommand("restart")
-        end
-    }
-
-    table.insert(t.buttons, a)
 end
 
 MakeAscensionTogglers()

@@ -141,8 +141,6 @@ AscensionInit = function()
 		if stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
 			mod:TryGenerateSecondBoss()
 
-			print(mod.SecondBossRoom)
-
 			if level:GetStage() == 2 and level:GetStageType() >= 3 then
 				mod:TryGenerateSecondBoss(1)
 			end

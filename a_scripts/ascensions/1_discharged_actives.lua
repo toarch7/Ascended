@@ -11,12 +11,12 @@ AscensionInit = function()
 		if game.TimeCounter == 10 then
 			local any = false
 			
-			if p:GetActiveItem(ActiveSlot.SLOT_PRIMARY) ~= 0 then
+			if p:GetActiveCharge(ActiveSlot.SLOT_PRIMARY) > 0 then
 				p:DischargeActiveItem(ActiveSlot.SLOT_PRIMARY)
 				any = true
 			end
 
-			if p:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= 0 then
+			if p:GetActiveCharge(ActiveSlot.SLOT_SECONDARY) ~= 0 then
 				p:DischargeActiveItem(ActiveSlot.SLOT_POCKET)
 				any = true
 			end
