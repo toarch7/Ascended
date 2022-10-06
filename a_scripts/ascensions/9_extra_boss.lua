@@ -15,7 +15,7 @@ function mod:GenerateExtraBoss(dim)
 	local hasrailplates = (level:GetStage() == 4 and level:GetStageType() >= 3)
 	local hasmarkedskull = (level:GetStage() == 6 and level:GetStageType() <= 2)
 
-	mod.Data.run.SecondBossRoom = -1
+	mod.SecondBossRoom = -1
 
 	for i = 0, 168, 1 do
 		local bossroom = mod.GetRoomByIdx(i, dim)
@@ -87,7 +87,7 @@ function mod:TryGenerateSecondBoss(dim)
 		local res = mod:GenerateExtraBoss(dim)
 
 		if res ~= -1 then
-			mod.Data.run.SecondBossRoom = res
+			mod.SecondBossRoom = res
 			break
 		end
 		
@@ -103,11 +103,13 @@ end
 
 AscensionInit = function()
 	mod:AddAscensionCallback("PreRoomAward", function()
-		if mod.Data.run.SecondBossRoom == nil then
-			mod.Data.run.SecondBossRoom = -1
+		print(mod.SecondBossRoom)
+
+		if mod.SecondBossRoom == nil then
+			mod.SecondBossRoom = -1
 		end
 		
-		if level:GetCurrentRoomIndex() == mod.Data.run.SecondBossRoom then
+		if level:GetCurrentRoomIndex() == mod.SecondBossRoom then
 			local room = game:GetRoom()
 			local any = false
 
@@ -138,6 +140,8 @@ AscensionInit = function()
 		
 		if stage ~= 9 and stage <= 11 and not level:IsAscent() and not mod.InGenerationLoop then
 			mod:TryGenerateSecondBoss()
+
+			print(mod.SecondBossRoom)
 
 			if level:GetStage() == 2 and level:GetStageType() >= 3 then
 				mod:TryGenerateSecondBoss(1)
