@@ -6,27 +6,41 @@ local game = Game()
 local level = game:GetLevel()
 local sfx = SFXManager()
 
+EntityType.ENTITY_SPOOKSTER = 631
+
 function mod:postSpooksterInit(entity)
 	entity:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	
-	entity:AddEntityFlags(EntityFlag.FLAG_PERSISTENT | EntityFlag.FLAG_DONT_COUNT_BOSS_HP |
+	entity:AddEntityFlags(EntityFlag.FLAG_PERSISTENT | EntityFlag.FLAG_DONT_COUNT_BOSS_HP | EntityFlag.FLAG_NO_STATUS_EFFECTS |
 		EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK | EntityFlag.FLAG_NO_KNOCKBACK | EntityFlag.FLAG_NO_FLASH_ON_DAMAGE)
 	
 	entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
-
 	entity:GetSprite().Offset = Vector(0, -65)
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT, mod.postSpooksterInit, 631)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT, mod.postSpooksterInit, EntityType.ENTITY_SPOOKSTER)
 
 function mod:CancelSpooksterCollision(_, ent)
-	if ent.Type == 631 then return true end
+	if ent.Type == EntityType.ENTITY_SPOOKSTER then return true end
 end
 
 mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, mod.CancelSpooksterCollision)
 mod:AddCallback(ModCallbacks.MC_PRE_PROJECTILE_COLLISION, mod.CancelSpooksterCollision)
 mod:AddCallback(ModCallbacks.MC_PRE_BOMB_COLLISION, mod.CancelSpooksterCollision)
 mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.CancelSpooksterCollision)
+
+
+function mod:SpooksterDamage(ent, amount)
+	if ent.Type == EntityType.ENTITY_SPOOKSTER then
+		if not ent:HasFullHealth() then
+			ent:AddHealth(amount)
+		end
+
+		return false
+	end
+end
+
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.SpooksterDamage)
 
 local transparent = Color(1.0, 1.0, 1.0)
 transparent:SetTint(1.0, 1.0, 1.0, 0.6)
@@ -58,7 +72,7 @@ function mod:preSpooksterUpdate(entity)
 	return true
 end
 
-mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.preSpooksterUpdate, 631)
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.preSpooksterUpdate, EntityType.ENTITY_SPOOKSTER)
 
 function mod:postSpooksterRender(entity, offset)
 	local screenpos = Isaac.WorldToScreen(entity.Position)
@@ -87,12 +101,12 @@ function mod:postSpooksterRender(entity, offset)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, mod.postSpooksterRender, 631)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, mod.postSpooksterRender, EntityType.ENTITY_SPOOKSTER)
 
 local spooksterlastroom = 84
 
 function mod:keepSpookstersInPlace()
-	local s = Isaac.FindByType(631, 0)
+	local s = Isaac.FindByType(EntityType.ENTITY_SPOOKSTER, 0)
 	local move = Vector(0, 0)
 	local currentroom = level:GetCurrentRoomIndex()
 
@@ -124,7 +138,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.keepSpookstersInPlace)
 
 function mod:removeSpooksters()
-	local s = Isaac.FindByType(631, 0)
+	local s = Isaac.FindByType(EntityType.ENTITY_SPOOKSTER, 0)
 
 	if #s then
 		for _, v in ipairs(s) do
@@ -155,7 +169,7 @@ AscensionInit = function()
 			if t <= 0 then
 				local p = game:GetRoom():GetCenterPos()
 
-				Isaac.Spawn(631, 0, 0, p, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SPOOKSTER, 0, 0, p, Vector.Zero, nil)
 				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 				local poof = Isaac.Spawn(1000, 16, 0, p - Vector(0, 24), Vector.Zero, nil)
 				poof:GetSprite().Color = Color(0, 0, 0)
