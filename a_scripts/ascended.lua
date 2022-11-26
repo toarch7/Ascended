@@ -52,7 +52,9 @@ function Ascended.ResetRunData()
 		KeyPieces = { 0, 0 },
 		SeenPickups = { },
 		HadAtLeastOneKey = false,
-		RoomsCleared = 0
+		RoomsCleared = 0,
+
+		SpooksterTimer = 2200
 	}
 end
 

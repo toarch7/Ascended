@@ -6,15 +6,27 @@ local game = Game()
 local level = game:GetLevel()
 local sfx = SFXManager()
 
-mod.SpooksterTimer = 2200
-
 function mod:postSpooksterInit(entity)
-	-- can remove these since it's no longer a NPC I guess
 	entity:AddEntityFlags(EntityFlag.FLAG_PERSISTENT | EntityFlag.FLAG_DONT_COUNT_BOSS_HP |
 		EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK | EntityFlag.FLAG_NO_KNOCKBACK | EntityFlag.FLAG_NO_FLASH_ON_DAMAGE)
+	
+	entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 end
 
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, mod.postSpooksterInit, 631)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT, mod.postSpooksterInit, 631)
+
+function mod:CancelSpooksterCollision(_, ent)
+	if ent.Type == 631 then return true end
+end
+
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, mod.CancelSpooksterCollision)
+mod:AddCallback(ModCallbacks.MC_PRE_PROJECTILE_COLLISION, mod.CancelSpooksterCollision)
+mod:AddCallback(ModCallbacks.MC_PRE_BOMB_COLLISION, mod.CancelSpooksterCollision)
+mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.CancelSpooksterCollision)
+
+local transparent = Color(1.0, 1.0, 1.0)
+transparent:SetTint(1.0, 1.0, 1.0, 0.6)
+local normalScale = Vector(1.0, 1.0)
 
 function mod:preSpooksterUpdate(entity)
 	local spr = entity:GetSprite()
@@ -23,7 +35,9 @@ function mod:preSpooksterUpdate(entity)
 	if target == nil then return end
 
 	spr.Offset = Vector(0, -65)
-
+	spr.Color = transparent
+	spr.Scale = normalScale
+	
 	entity:GetData().LastPosition = entity.Position
 
 	if not spr:IsPlaying("Body") then
@@ -47,7 +61,7 @@ function mod:preSpooksterUpdate(entity)
 	return true
 end
 
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.preSpooksterUpdate, 631)
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.preSpooksterUpdate, 631)
 
 function mod:postSpooksterRender(entity, offset)
 	local screenpos = Isaac.WorldToScreen(entity.Position)
@@ -59,6 +73,8 @@ function mod:postSpooksterRender(entity, offset)
 		data.Mask:SetAnimation(mod.rng:RandomInt(56), true)
 		data.Mask:Play(data.Mask:GetAnimation(), true)
 	end
+
+	data.Mask.Color = transparent
 
 	local n = data.Mask:GetAnimation()
 
@@ -73,12 +89,12 @@ function mod:postSpooksterRender(entity, offset)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, mod.postSpooksterRender, 631)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, mod.postSpooksterRender, 631)
 
 local spooksterlastroom = 84
 
 function mod:keepSpookstersInPlace()
-	local s = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, 631)
+	local s = Isaac.FindByType(631, 0)
 	local move = Vector(0, 0)
 	local currentroom = level:GetCurrentRoomIndex()
 
@@ -97,9 +113,11 @@ function mod:keepSpookstersInPlace()
 		end
 	end
 
+	print(move.X, move.Y)
+
 	if #s then
 		for _, v in ipairs(s) do
-			v.Position = v.Position - move * 320
+			v.Position = v.Position - move * 240
 		end
 	end
 
@@ -109,7 +127,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.keepSpookstersInPlace)
 
 function mod:removeSpooksters()
-	local s = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, 631)
+	local s = Isaac.FindByType(631, 0)
 
 	if #s then
 		for _, v in ipairs(s) do
@@ -119,7 +137,7 @@ function mod:removeSpooksters()
 
 	spooksterlastroom = 84
 
-	mod.SpooksterTimer = 2200
+	mod.Data.Run.SpooksterTimer = 2200
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
@@ -127,10 +145,12 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 
 AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function()
-		if mod.SpooksterTimer > 0 then
-			mod.SpooksterTimer = mod.SpooksterTimer - 1
+		local t = mod.Data.Run.SpooksterTimer
 
-			if mod.SpooksterTimer <= 0 then
+		if t > 0 then
+			t = mt - 1
+
+			if t <= 0 then
 				local rng = mod.rng
 
 				local room = game:GetRoom()
@@ -155,6 +175,8 @@ AscensionInit = function()
 
 				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 			end
+
+			mod.Data.Run.SpooksterTimer = t
 		end
 	end)
 end
