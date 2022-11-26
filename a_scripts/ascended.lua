@@ -285,7 +285,7 @@ Ascended.DecideBoss = function()
 				"205" .. mod.Random(3), -- Gemini
 				"102" .. mod.Random(8), -- Larry Jr.
 				"502" .. mod.Random(5), -- Dingle
-				"514" .. mod.Random(5), -- Gurglings
+				"514" .. mod.Random(4), -- Gurglings
 				
 				"516" .. mod.Random(5), -- Baby Plum
 				"11"  .. (17 + mod.Random(4)), -- Dangle
@@ -345,9 +345,9 @@ Ascended.DecideBoss = function()
 				"103" .. mod.Random(2), -- Chub
 				"104" .. mod.Random(4), -- Gurdy
 				"503" .. mod.Random(5), -- Mega Maw
-				"505" .. mod.Random(4), -- Mega Fatty
 				"110" .. mod.Random(4), -- C.H.A.D.
-				"110" .. (6 + mod.Random(3)) -- Stain
+				"110" .. (6 + mod.Random(3)), -- Stain
+				choose("5050", "5051", "5052", "5054") -- Mega Fatty
 			)
 		elseif typ == 1 then
 			return choose(

@@ -185,7 +185,7 @@ AscensionInit = function()
 				spr:Load("gfx/broken_key" .. data .. ".anm2", true)
 				spr:Play("Idle")
 			end
-		elseif pick.Variant == 20 then
+		elseif pick.Variant == 20 and pick.SubType == 1 then
 			local rng = pick:GetDropRNG()
 
 			if rng:RandomFloat() <= 0.25 then
