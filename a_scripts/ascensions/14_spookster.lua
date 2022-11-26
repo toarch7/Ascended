@@ -163,7 +163,7 @@ AscensionInit = function()
 					spawnpos.Y = spawnpos.Y - 96
 				end
 
-				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 631, 0, spawnpos, Vector.Zero, nil)
+				Isaac.Spawn(631, 0, 0, spawnpos, Vector.Zero, nil)
 
 				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 			end
