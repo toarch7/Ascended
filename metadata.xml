@@ -48,25 +48,16 @@ A Spelunky-styled ghost will now appear on each floor after a certain time thres
 [*] All effects and any progress are disabled in: Normal mode, Greed/Greedier mode, Challenges.
 [*] This mod uses [b]DeadSeaScrolls[/b] as config menu - this means you don't need to install any additional mods. Press [b][C] or [f1][/b] to configure stuff.
 [*] You can enable freeplay mode in DSS options, which makes progression optional part.
-[*] Undesired ascensions can be turned off in DSS options menu.
 [*] It's possible to change Ascension number thru `ascend x` console command, where the `x` is a needed ascension. 
-[*] Works in multiplayer (both local and through networktest).
+[*] Works in multiplayer (both local and through networktest, though through the last one all players need to sync their ascension levels if needed (how? - see above))
 [*] Should work fine for most modded characters (unless you're constantly installing or removing ones).
 [*] This gamemode does its best mostly during Eden streaks.
-[/list]
-
-[h1]Todo[/h1]
-[list]
-[*] Up to 20 ascensions
-[*] Unlockables
-[*] StageAPI compat (or custom bosses in general)
-[*] Fix A9 issues with minimap and something else
 [/list]
 
 [h1]Special thanks[/h1]
 [b]Warhamm2000[/b]: Epic Spookster spritesheet and workshop thumbnail
 [b]fly_6[/b]: Coding help and playtesting
-[b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &amp; playtesting
+[b]sodda, Nogisto, ProjectTZ, Danial[/b]: Suggestions &quot; playtesting
 
 [url=https://twitter.com/torcher__]Twitter[/url] (I post nothing interesting there)
 [url=https://github.com/toarch7/Ascended]Source code[/url]

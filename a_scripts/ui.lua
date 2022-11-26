@@ -79,7 +79,7 @@ function mod:OnRender()
 	mod.UI.textoffset = textoffset
 	mod.UI.texttime = texttime
 
-	local wets = mod.Data.run.WetBombs
+	local wets = mod.Data.Run.WetBombs
 
 	if wets ~= nil and wets > 0 then
 		local offsetraw = Options.HUDOffset * 10
@@ -93,7 +93,7 @@ mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.OnRender)
 function mod:DrawAscensionIcon()
 	local f = mod.font
 	
-	if mod:GetSaveData().displayIcon ~= 2 and mod.Active then
+	if mod:GetSaveData().DisplayIcon ~= 2 and mod.Active then
 		local offsetraw = Options.HUDOffset
 		local offset = offsetraw * 24
 		

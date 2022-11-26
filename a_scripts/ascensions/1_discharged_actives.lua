@@ -4,8 +4,6 @@ local mod = Ascended
 local game = Game()
 local sfx = SFXManager()
 
-mod.PedestalData = {}
-
 AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function(p)
 		if game.TimeCounter == 10 then
@@ -32,29 +30,14 @@ AscensionInit = function()
 	end)
 
 	mod:AddAscensionCallback("PrePickupCollision", function(p)
-		if mod.PedestalData == nil then
-			mod.PedestalData = {}
-		end
-
-		local pd = mod.PedestalData
-
-		if pd == nil then pd = {} end
-
 		if p.Variant == 100 or p.Variant == 150 then
-			local seed = p:GetDropRNG():GetSeed()
-
-			local roll = false
+			local data = mod.Data.Run.SeenPickups
+			local ind = "p" .. tostring(p.InitSeed)
 			
-			if pd[seed] == nil then roll = true pd[seed] = true end
-			if pd[p.SubType] == nil then roll = true pd[p.SubType] = true end
-			
-			if roll then
+			if data[ind] == nil then
+				data[ind] = 1
 				p.Charge = 0
 			end
 		end
-	end)
-
-	mod:AddAscensionCallback("NewLevel", function()
-		mod.PedestalData = {}
 	end)
 end

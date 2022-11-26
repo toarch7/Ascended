@@ -73,8 +73,7 @@ local ascendeddirectory = {
 
         buttons = {
             {str = "resume game", action = "resume"},
-            {str = "settings", dest = "settings"},
-            {str = "ascensions", dest = "ascensiontoggles"},
+            {str = "options", dest = "settings"},
             
             dssmod.changelogsButton,
 
@@ -95,7 +94,7 @@ local ascendeddirectory = {
 
             {
                 str = "show ascensions",
-                choices = {"when holding map button", "only in start room"},
+                choices = {"when holding map button", "only in starting room"},
                 
                 setting = 1,
 
@@ -119,11 +118,11 @@ local ascendeddirectory = {
                 variable = "ascendedShowIcon",
                 
                 load = function()
-                    return mod.GetSaveData().displayIcon or 1
+                    return mod.GetSaveData().DisplayIcon or 1
                 end,
 
                 store = function(var)
-                    mod.GetSaveData().displayIcon = var
+                    mod.GetSaveData().DisplayIcon = var
                 end
             },
             
@@ -138,13 +137,13 @@ local ascendeddirectory = {
                 variable = "ascendedFreeplayOption",
                 
                 load = function()
-                    return mod.GetSaveData().freeplay or 2
+                    return mod.GetSaveData().Freeplay or 2
                 end,
 
                 store = function(var)
-                    local p = mod.GetSaveData().freeplay
+                    local p = mod.GetSaveData().Freeplay
 
-                    mod.GetSaveData().freeplay = var
+                    mod.GetSaveData().Freeplay = var
                     
                     if p ~= var and not mod.UI.leftstartroom then
                         Ascended.Freeplay = var
@@ -234,12 +233,6 @@ local function MakeAscensionTogglers()
         table.insert(t.buttons, {str = "", nosel = true})
     end
 end
-
-MakeAscensionTogglers()
-
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, function()
-    MakeAscensionTogglers()
-end)
 
 local ascendeddirectorykey = {
     Item = ascendeddirectory.main,

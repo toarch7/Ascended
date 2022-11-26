@@ -12,8 +12,8 @@ AscensionInit = function()
 			elseif p.Price == 13 then
 				p.Price = 15
 			end
-
-			if p.SubType == CollectibleType.COLLECTIBLE_BOOM then
+			
+			if p.SubType == CollectibleType.COLLECTIBLE_BOOM then -- memes
 				p.Price = 50
 			end
 		end

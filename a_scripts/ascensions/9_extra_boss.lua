@@ -103,8 +103,6 @@ end
 
 AscensionInit = function()
 	mod:AddAscensionCallback("PreRoomAward", function()
-		print(mod.SecondBossRoom)
-
 		if mod.SecondBossRoom == nil then
 			mod.SecondBossRoom = -1
 		end

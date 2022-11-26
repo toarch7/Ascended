@@ -76,7 +76,6 @@ AscensionInit = function()
                     value = 3
                 end
 
-                -- print(value, pick.SubType)
                 -- apparently fiendfolio keys don't trigger this callback?
                 -- leaving compat for the sake of anything
 
@@ -92,7 +91,7 @@ AscensionInit = function()
                     return false
                 end
             elseif pick.Variant == 40 then
-                local count = player:GetNumBombs() + (mod.Data.run.WetBombs or 0)
+                local count = player:GetNumBombs() + (mod.Data.Run.WetBombs or 0)
                 
                 value = 1
 
