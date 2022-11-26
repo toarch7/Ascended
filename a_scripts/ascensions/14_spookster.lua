@@ -107,8 +107,6 @@ function mod:keepSpookstersInPlace()
 		end
 	end
 
-	print(move.X, move.Y)
-
 	if #s then
 		for _, v in ipairs(s) do
 			v.Position = v.Position - move * 240
