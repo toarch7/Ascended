@@ -34,6 +34,8 @@ function mod:LoadAscensionData(continued)
 	if not continued then
 		mod.ResetRunData()
 
+		mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 1)
+
 		local plrs = game:GetNumPlayers() - 1
 
 		for i = 0, plrs do

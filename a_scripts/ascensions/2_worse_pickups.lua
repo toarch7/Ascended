@@ -45,8 +45,9 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 			local spr = pick:GetSprite()
 
 			if spr:GetAnimation() == "Idle" or spr:WasEventTriggered("DropSound") then
+				local data = Ascended.Data.Run
 				local type = 1
-
+				
 				if pick:GetSprite():GetFilename() == "gfx/broken_key2.anm2" then
 					type = 2
 				end
@@ -67,7 +68,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 						data.KeyPieces[2] = data.KeyPieces[2] - 1
 
 						local k = Isaac.Spawn(5, 30, 1, pick.Position, collider.Velocity, pick.Spawner)
-						pickups[mod.PickupInd(k)] = true
+						mod.SetPickupData(k, true)
 					end
 				end
 				
@@ -82,6 +83,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, function(_, pick, collider
 			end
 		elseif pick.Variant == 40 then -- wet bombs
 			local spr = pick:GetSprite()
+			local data = Ascended.Data.Run
 
 			if spr:GetAnimation() == "Idle" or spr:WasEventTriggered("DropSound") then
 				if data.WetBombs == nil then

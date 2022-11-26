@@ -109,7 +109,8 @@ function mod:keepSpookstersInPlace()
 
 	if #s then
 		for _, v in ipairs(s) do
-			v.Position = v.Position - move * 240
+			local p = game:GetNearestPlayer(v.Position)
+			v.Position = p.Position - move * 240
 		end
 	end
 
@@ -143,28 +144,7 @@ AscensionInit = function()
 			t = t - 1
 
 			if t <= 0 then
-				local rng = mod.rng
-
-				local room = game:GetRoom()
-				local w = room:GetGridWidth()
-				local h = room:GetGridHeight()
-
-				local spawnpos = Vector(rng:RandomInt(w), rng:RandomInt(h))
-
-				if spawnpos.X > w / 2 then
-					spawnpos.X = spawnpos.X + 96
-				else
-					spawnpos.X = spawnpos.X - 96
-				end
-				
-				if spawnpos.Y > w / 2 then
-					spawnpos.Y = spawnpos.Y + 96
-				else
-					spawnpos.Y = spawnpos.Y - 96
-				end
-
-				Isaac.Spawn(631, 0, 0, spawnpos, Vector.Zero, nil)
-
+				Isaac.Spawn(631, 0, 0, Vector.Zero, Vector.Zero, nil)
 				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
 			end
 

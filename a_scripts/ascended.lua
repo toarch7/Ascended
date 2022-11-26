@@ -212,9 +212,6 @@ mod.PostCleanAward = false
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, function (_, player)
 	if game.TimeCounter > 0 then return end
-
-	mod.rng:SetSeed(game:GetSeeds():GetStartSeed(), 16)
-	
 	mod.UI.leftstartroom = false
 end)
 
