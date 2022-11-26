@@ -28,6 +28,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, mod.CancelSpooksterCollision
 mod:AddCallback(ModCallbacks.MC_PRE_PROJECTILE_COLLISION, mod.CancelSpooksterCollision)
 mod:AddCallback(ModCallbacks.MC_PRE_BOMB_COLLISION, mod.CancelSpooksterCollision)
 mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.CancelSpooksterCollision)
+mod:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION, mod.CancelSpooksterCollision)
 
 
 function mod:SpooksterDamage(ent, amount)

@@ -6,6 +6,8 @@ AscensionInit = function()
 	mod:AddAscensionCallback("PostRoomAward", function(p)
 		local c = mod.Data.Run.RoomsCleared or 1
 
+		mod.Data.Run.RoomsCleared = c + 1
+
 		if c % 3 == 0 then
 			local slots = { ActiveSlot.SLOT_PRIMARY, ActiveSlot.SLOT_SECONDARY, ActiveSlot.SLOT_POCKET, ActiveSlot.SLOT_POCKET2 }
 			local any = false
@@ -29,7 +31,5 @@ AscensionInit = function()
 				SFXManager():Play(SoundEffect.SOUND_THUMBS_DOWN)
 			end
 		end
-
-		mod.Data.Run.RoomsCleared = c + 1
 	end)
 end
