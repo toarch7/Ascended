@@ -40,7 +40,9 @@ function Ascended.InitData()
 		DisplayIcon = 1,
 	
 		Ascensions = {},
-		Deactivated = {}
+		Deactivated = {},
+
+		SaveVersion = 1.0
 	}
 
 	Ascended.ResetRunData()

@@ -140,7 +140,7 @@ AscensionInit = function()
 		local t = mod.Data.Run.SpooksterTimer
 
 		if t > 0 then
-			t = mt - 1
+			t = t - 1
 
 			if t <= 0 then
 				local rng = mod.rng

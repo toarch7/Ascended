@@ -16,15 +16,24 @@ end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveAscensionData)
 
 function mod:LoadAscensionData(continued)
+	local SaveVersion = 1.0
+
 	if mod:HasData() then
 		Ascended.Data = json.decode(mod:LoadData())
+
+		if Ascended.Data.SaveVersion ~= SaveVersion then
+			Ascended.Data.SaveVersion = SaveVersion
+			Ascended.ResetRunData()
+		end
 	else
-		mod:InitData()
+		Ascended.InitData()
 	end
 
 	mod:InitAscensions()
 	
 	if not continued then
+		mod.ResetRunData()
+
 		local plrs = game:GetNumPlayers() - 1
 
 		for i = 0, plrs do
