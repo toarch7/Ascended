@@ -7,10 +7,14 @@ local level = game:GetLevel()
 local sfx = SFXManager()
 
 function mod:postSpooksterInit(entity)
+	entity:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+	
 	entity:AddEntityFlags(EntityFlag.FLAG_PERSISTENT | EntityFlag.FLAG_DONT_COUNT_BOSS_HP |
 		EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK | EntityFlag.FLAG_NO_KNOCKBACK | EntityFlag.FLAG_NO_FLASH_ON_DAMAGE)
 	
 	entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
+
+	entity:GetSprite().Offset = Vector(0, -65)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT, mod.postSpooksterInit, 631)
@@ -34,7 +38,6 @@ function mod:preSpooksterUpdate(entity)
 
 	if target == nil then return end
 
-	spr.Offset = Vector(0, -65)
 	spr.Color = transparent
 	spr.Scale = normalScale
 	
@@ -66,6 +69,7 @@ function mod:postSpooksterRender(entity, offset)
 		data.Mask:Load("gfx/spookster.anm2", true)
 		data.Mask:SetAnimation(mod.rng:RandomInt(56), true)
 		data.Mask:Play(data.Mask:GetAnimation(), true)
+		data.Mask.PlaybackSpeed = 0.33
 	end
 
 	data.Mask.Color = transparent
@@ -77,8 +81,8 @@ function mod:postSpooksterRender(entity, offset)
 	end
 
 	data.Mask:Render(screenpos + entity:GetSprite().Offset)
-
-	if not game:IsPaused() and game.TimeCounter % 2 == 0 then
+	
+	if not game:IsPaused() then
 		data.Mask:Update()
 	end
 end
@@ -139,13 +143,24 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
 AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function()
 		local t = mod.Data.Run.SpooksterTimer
-
+		
 		if t > 0 then
 			t = t - 1
 
+			if t == 30 then
+				sfx:Play(SoundEffect.SOUND_DEATH_CARD, 1.0, 4)
+				game:Darken(1, 75)
+			end
+
 			if t <= 0 then
-				Isaac.Spawn(631, 0, 0, Vector.Zero, Vector.Zero, nil)
+				local p = game:GetRoom():GetCenterPos()
+
+				Isaac.Spawn(631, 0, 0, p, Vector.Zero, nil)
 				sfx:Play(SoundEffect.SOUND_LAZARUS_FLIP_DEAD, 0.5, 0, false, 0.75)
+				local poof = Isaac.Spawn(1000, 16, 0, p - Vector(0, 24), Vector.Zero, nil)
+				poof:GetSprite().Color = Color(0, 0, 0)
+				poof:GetSprite().Scale = Vector(1.5, 1.5)
+				game:ShakeScreen(15)
 			end
 
 			mod.Data.Run.SpooksterTimer = t
