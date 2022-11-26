@@ -56,7 +56,7 @@ function Ascended.ResetRunData()
 		HadAtLeastOneKey = false,
 		RoomsCleared = 0,
 
-		SpooksterTimer = 2200
+		SpooksterTimer = 1100
 	}
 end
 

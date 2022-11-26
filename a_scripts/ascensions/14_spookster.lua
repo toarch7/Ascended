@@ -149,7 +149,7 @@ function mod:removeSpooksters()
 
 	spooksterlastroom = 84
 
-	mod.Data.Run.SpooksterTimer = 2200
+	mod.Data.Run.SpooksterTimer = 1100
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.removeSpooksters)
