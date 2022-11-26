@@ -7,16 +7,18 @@ local sfx = SFXManager()
 AscensionInit = function()
 	mod:AddAscensionCallback("PlayerUpdate", function(p)
 		if game.TimeCounter == 10 then
+			local slots = { ActiveSlot.SLOT_PRIMARY, ActiveSlot.SLOT_SECONDARY, ActiveSlot.SLOT_POCKET, ActiveSlot.SLOT_POCKET2 }
 			local any = false
-			
-			if p:GetActiveCharge(ActiveSlot.SLOT_PRIMARY) > 0 then
-				p:DischargeActiveItem(ActiveSlot.SLOT_PRIMARY)
-				any = true
-			end
 
-			if p:GetActiveCharge(ActiveSlot.SLOT_SECONDARY) ~= 0 then
-				p:DischargeActiveItem(ActiveSlot.SLOT_POCKET)
-				any = true
+			for _, v in pairs(slots) do
+				local item = p:GetActiveItem(v)
+				
+				print(item)
+
+				if item ~= 0 and p:GetActiveCharge(v) > 0 then
+					p:SetActiveCharge(0, v)
+					any = true
+				end
 			end
 			
 			if any then
