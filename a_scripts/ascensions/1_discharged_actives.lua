@@ -13,8 +13,6 @@ AscensionInit = function()
 			for _, v in pairs(slots) do
 				local item = p:GetActiveItem(v)
 				
-				print(item)
-
 				if item ~= 0 and p:GetActiveCharge(v) > 0 then
 					p:SetActiveCharge(0, v)
 					any = true
