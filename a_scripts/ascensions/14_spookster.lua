@@ -51,12 +51,6 @@ function mod:preSpooksterUpdate(entity)
 	if d <= 52 then
 		target:AddFear(EntityRef(entity), 3)
 	end
-	
-	if d <= 32 and target:ToPlayer():GetDamageCooldown() <= 0 then
-		if target:TakeDamage(8, 0, EntityRef(entity), 120) then
-			sfx:Play(SoundEffect.SOUND_BONE_SNAP)
-		end
-	end
 
 	return true
 end
