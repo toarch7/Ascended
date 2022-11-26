@@ -97,8 +97,11 @@ function mod:DrawAscensionIcon()
 		local offsetraw = Options.HUDOffset
 		local offset = offsetraw * 24
 		
-		
 		local p = Vector(5 + offset, 75 + offset - offsetraw * 11)
+
+		if mod.AnyCharacterByName("Bethany") then
+			p.Y = p.Y + 8
+		end
 		
 		mod.UI.Icon:Render(p)
 		

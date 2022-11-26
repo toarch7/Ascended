@@ -38,6 +38,18 @@ function mod.AnyCharacterByName(name)
 	return false
 end
 
+function mod.AnyCharacterByType(type)
+	local n = game:GetNumPlayers()
+
+	for i = 0, n - 1 do
+		if Isaac.GetPlayer(i):GetPlayerType() == type then
+			return true
+		end
+	end
+
+	return false
+end
+
 -- floorgen stuff
 function mod.GetRoomByIdx(index, dim)
 	if dim == nil then dim = -1 end
