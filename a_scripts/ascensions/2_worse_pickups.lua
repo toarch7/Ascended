@@ -195,13 +195,13 @@ AscensionInit = function()
 			end
 		end
 	end)
-
+	
 	mod:AddAscensionCallback("PickupUpdate", function(pick)
 		if pick.SubType == 1 and pick.Price <= 0 then
 			local s = mod.GetPickupData(pick)
 			
 			if s == nil then
-				if pick.Variant == 30 then -- make broken key
+				if pick.Variant == 30 and not game:GetRoom():HasCurseMist() then -- make broken key
 					if not mod.Data.Run.HadAtLeastOneKey then
 						if pick:GetDropRNG():RandomFloat() <= 0.35 then
 							pick:Morph(pick.Type, pick.Variant, 42)
