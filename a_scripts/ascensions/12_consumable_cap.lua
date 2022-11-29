@@ -101,6 +101,12 @@ AscensionInit = function()
 
                 if count + value > Properties.BombCap then
                     if pick.SubType == 4 then return nil end
+
+                    if value == 2 and count == Properties.BombCap - 1 then
+                        Isaac.Spawn(pick.Type, pick.Variant, 1, player.Position, player.Velocity, pick.Spawner)
+                        player:AddBombs(-1)
+                        return nil
+                    end
                     
                     return false
                 end
