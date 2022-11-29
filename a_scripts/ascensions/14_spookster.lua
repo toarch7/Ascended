@@ -12,7 +12,7 @@ function mod:postSpooksterInit(entity)
 	entity:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	
 	entity:AddEntityFlags(EntityFlag.FLAG_PERSISTENT | EntityFlag.FLAG_DONT_COUNT_BOSS_HP | EntityFlag.FLAG_NO_STATUS_EFFECTS |
-		EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK | EntityFlag.FLAG_NO_KNOCKBACK | EntityFlag.FLAG_NO_FLASH_ON_DAMAGE)
+		EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK | EntityFlag.FLAG_NO_KNOCKBACK | EntityFlag.FLAG_NO_FLASH_ON_DAMAGE | EntityFlag.FLAG_NO_TARGET)
 	
 	entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 	entity:GetSprite().Offset = Vector(0, -65)
